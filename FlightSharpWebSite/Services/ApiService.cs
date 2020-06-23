@@ -46,37 +46,18 @@ namespace FlightSharpWebSite
         {
             current.Destination = airport;
 
-            string selectToken = "data.{0}.{1}.";
-            string baseToken = string.Format(selectToken, airport, num.ToString());
+            string selectToken = "data.{0}.";
+            selectToken = string.Format(selectToken, airport);
+
             int fields = 5;
 
             for (int i = 0; i < fields; i++)
             {
-                if (i == 0)
-                {
-                    string currentToken = baseToken + "price";
-                    current.PriceHUF = (string)jObj.SelectToken(currentToken);
-                }
-                else if (i == 1)
-                {
-                    string currentToken = baseToken + "airline";
-                    current.AirLine = (string)jObj.SelectToken(currentToken);
-                }
-                else if (i == 2)
-                {
-                    string currentToken = baseToken + "flight_number";
-                    current.FlightNo = (string)jObj.SelectToken(currentToken);
-                }
-                else if (i == 3)
-                {
-                    string currentToken = baseToken + "departure_at";
-                    current.Departure = (string)jObj.SelectToken(currentToken);
-                }
-                else if (i == 4)
-                {
-                    string currentToken = baseToken + "return_at";
-                    current.Return = (string)jObj.SelectToken(currentToken);
-                }
+                current.PriceHUF = (string)jObj.SelectToken(selectToken + i + ".price");
+                current.AirLine = (string)jObj.SelectToken(selectToken + i + ".airline");
+                current.FlightNo = (string)jObj.SelectToken(selectToken + i + ".flight_num");
+                current.Departure = (string)jObj.SelectToken(selectToken + i + ".departure_at");
+                current.Return = (string)jObj.SelectToken(selectToken + i + ".return_at");
             }
 
         }
