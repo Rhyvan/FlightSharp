@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FlightSharpWebSite.Models
@@ -22,10 +23,10 @@ namespace FlightSharpWebSite.Models
             FlightNo = flightNo;
         }
 
-        public override string ToString()
-        {
-            return "Flight Number: " + FlightNo + " Date: " + Date + " Start: " + Start + " Destination: " +
-                   Destination + " Price in HUF: " + PriceHUF;
-        }
+        public override string ToString() => "Flight Number: " + FlightNo + " Date: " + Date + " Start: " + Start + " Destination: " +
+                                             Destination + " Price in HUF: " + PriceHUF;
+
+
+        public string ToJson() => JsonSerializer.Serialize<Flight>(this);
     }
 }
