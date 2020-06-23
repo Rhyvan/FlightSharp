@@ -8,22 +8,21 @@ namespace FlightSharpWebSite.Models
 {
     public class Flight
     {
-        public string Date { get; set; }
-        public int PriceHUF { get; set; }
+        public string Return { get; set; }
+        public string PriceHUF { get; set; }
         public string Destination { get; set; }
-        public string Start { get; set; }
-        public int FlightNo { get; set; }
+        public string Departure { get; set; }
+        public string FlightNo { get; set; }
 
-        public Flight(string date, int priceHuf, string destination, string start, int flightNo)
+        public string AirLine { get; set; }
+
+
+        public Flight()
         {
-            Date = date;
-            PriceHUF = priceHuf;
-            Destination = destination;
-            Start = start;
-            FlightNo = flightNo;
+
         }
 
-        public override string ToString() => "Flight Number: " + FlightNo + " Date: " + Date + " Start: " + Start + " Destination: " +
+        public override string ToString() => "Flight Number: " + FlightNo + " Date: " + Return + " Start: " + Departure + " Destination: " +
                                              Destination + " Price in HUF: " + PriceHUF;
 
 
