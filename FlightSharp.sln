@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightSharpAPI", "FlightSharpAPI\FlightSharpAPI.csproj", "{6EFCB0B8-ACA6-40FD-8221-1B86D78A72E3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightSharpWebSite", "FlightSharpWebSite\FlightSharpWebSite.csproj", "{24EF34D2-BC6E-44B8-914E-4FE95347D698}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6EFCB0B8-ACA6-40FD-8221-1B86D78A72E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EFCB0B8-ACA6-40FD-8221-1B86D78A72E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EFCB0B8-ACA6-40FD-8221-1B86D78A72E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EFCB0B8-ACA6-40FD-8221-1B86D78A72E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24EF34D2-BC6E-44B8-914E-4FE95347D698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24EF34D2-BC6E-44B8-914E-4FE95347D698}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24EF34D2-BC6E-44B8-914E-4FE95347D698}.Release|Any CPU.ActiveCfg = Release|Any CPU
