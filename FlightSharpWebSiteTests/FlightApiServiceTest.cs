@@ -5,18 +5,47 @@ using NSubstitute.Extensions;
 using System.Linq;
 using FlightSharpWebSite.Models;
 using System;
+using RestSharp;
 
 namespace FlightSharpWebSiteTests
 {
     public class Tests
     {
         ApiService flightApi;
+        IRestClient client;
+        IRestRequest request;
+        IRestResponse response;
+        string responseResult = @"{'success':true,'data':{'DUB':{'0':{'price':53731,'airline':'FR','flight_number':1024,'departure_at':'2020 - 08 - 03T17: 25:00Z','return_at':'2020 - 08 - 07T23: 20:00Z','expires_at':'2020 - 07 - 01T15: 50:13Z'}}},'error':null,'currency':'HUF'}";
 
         [SetUp]
         public void Setup()
         {
-            flightApi = new ApiService();
+            client = Substitute.For<IRestClient>();
+            request = Substitute.For<IRestRequest>();
+            response = Substitute.For<IRestResponse>();
+            response.Content = responseResult;
+            flightApi = new ApiService(client);
         }
+
+        [Test]
+        public void TestGetAllFlightWithDependencyInjection()
+        {
+            client.Execute(request).Returns(response);
+
+            var expected = new Flight()
+            {
+                PriceHUF = 53731,
+                AirLine = "FR",
+                FlightNo = 1024,
+                Departure = DateTime.Parse("2020 - 08 - 03T17: 25:00Z").ToUniversalTime(),
+                Return = DateTime.Parse("2020 - 08 - 07T23: 20:00Z").ToUniversalTime(),
+            };
+
+            var result = flightApi.GetFlights("BUD", "DUB");
+
+            Assert.AreEqual(expected.ToJson(), result.First().ToJson());
+        }
+
 
         [Test]
         public void TestGetFlightsFromTo()
