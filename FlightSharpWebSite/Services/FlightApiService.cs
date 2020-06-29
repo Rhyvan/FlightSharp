@@ -8,15 +8,15 @@ using System.Linq;
 
 namespace FlightSharpWebSite
 {
-    public class ApiService
+    public class FlightApiService
     {
         private IRestClient _restClient;
 
-        public ApiService()
+        public FlightApiService()
         {
 
         }
-        public ApiService(IRestClient restClient)
+        public FlightApiService(IRestClient restClient)
         {
             _restClient = restClient;
         }
@@ -24,7 +24,7 @@ namespace FlightSharpWebSite
 
         public virtual IEnumerable<Flight> GetFlights(string origin, string destination)
         {
-            var resp = GetResponseAsString(destination);
+            var resp = GetResponseAsString(origin, destination);
             var json = JObject.Parse(resp);
             var flightsJson = json["data"][destination].ToString();
             IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
@@ -34,10 +34,10 @@ namespace FlightSharpWebSite
             return flights;
         }
 
-        public virtual string GetResponseAsString(string destination)
+        public virtual string GetResponseAsString(string origin, string destination)
         {
-            string baseUrl = "https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/prices/cheap?destination={0}&origin=BUD&currency=HUF&page=None";
-            string url = string.Format(baseUrl, destination);
+            string baseUrl = "https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/prices/cheap?destination={0}&origin={1}&currency=HUF&page=None";
+            string url = string.Format(baseUrl, destination, origin);
             _restClient = new RestClient(url);
             var request = new RestRequest(Method.GET);
             request.AddHeader("x-access-token", "237f37871102101c4ec439ba6c98520e");

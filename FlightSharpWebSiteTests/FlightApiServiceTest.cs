@@ -11,20 +11,20 @@ namespace FlightSharpWebSiteTests
 {
     public class Tests
     {
-        ApiService flightApi;
+        FlightApiService flightApi;
         IRestClient client;
         IRestRequest request;
         IRestResponse response;
         string responseResult = @"{'success':true,'data':{'DUB':{'0':{'price':53731,'airline':'FR','flight_number':1024,'departure_at':'2020 - 08 - 03T17: 25:00Z','return_at':'2020 - 08 - 07T23: 20:00Z','expires_at':'2020 - 07 - 01T15: 50:13Z'}}},'error':null,'currency':'HUF'}";
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             client = Substitute.For<IRestClient>();
             request = Substitute.For<IRestRequest>();
             response = Substitute.For<IRestResponse>();
             response.Content = responseResult;
-            flightApi = new ApiService(client);
+            flightApi = new FlightApiService(client);
         }
 
         [Test]
@@ -89,8 +89,8 @@ namespace FlightSharpWebSiteTests
                 Return = DateTime.Parse(returnTime).ToUniversalTime(),
             };
 
-            var apiServiceStub = Substitute.ForPartsOf<ApiService>();
-            apiServiceStub.Configure().GetResponseAsString(destination).ReturnsForAnyArgs(response);
+            var apiServiceStub = Substitute.ForPartsOf<FlightApiService>();
+            apiServiceStub.Configure().GetResponseAsString(Arg.Any<string>(), Arg.Any<string>()).ReturnsForAnyArgs(response);
 
             var result = apiServiceStub.GetFlights("BUD", destination);
             
