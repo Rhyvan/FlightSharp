@@ -1,7 +1,9 @@
 ﻿using FlightSharpWebSite.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FlightSharpWebSite
@@ -9,10 +11,21 @@ namespace FlightSharpWebSite
     public class ApiService
     {
         public int FlightsCounted { get; private set; }
-        public ApiService()
-        {
 
+
+        public virtual IEnumerable<Flight> GetFlights(string origin, string destination)
+        {
+            var resp = GetResponseAsString(destination);
+            var json = JObject.Parse(resp);
+            var flightsJson = json["data"][destination].ToString();
+            IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
+               .Select(kvp => kvp.Value);
+
+
+            return flights;
         }
+
+
 
         public void GetOneFlightFromFlights(string destination, int flightCounter, Flight currentFlight)
         {
@@ -22,7 +35,7 @@ namespace FlightSharpWebSite
             SetFlight(currentFlight, destination, flightCounter, json);
         }
 
-        private string GetResponseAsString(string destination)
+        public virtual string GetResponseAsString(string destination)
         {
             string baseUrl = "https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/prices/cheap?destination={0}&origin=BUD&currency=HUF&page=None";
             string url = string.Format(baseUrl, destination);
@@ -44,21 +57,21 @@ namespace FlightSharpWebSite
 
         private void SetFlight(Flight current, string airport, int num, JObject jObj)
         {
-            current.Destination = airport;
+            //current.Destination = airport;
 
-            string selectToken = "data.{0}.";
-            selectToken = string.Format(selectToken, airport);
+            //string selectToken = "data.{0}.";
+            //selectToken = string.Format(selectToken, airport);
 
-            int fields = 5;
+            //int fields = 5;
 
-            for (int i = 0; i < fields; i++)
-            {
-                current.PriceHUF = (string)jObj.SelectToken(selectToken + i + ".price");
-                current.AirLine = (string)jObj.SelectToken(selectToken + i + ".airline");
-                current.FlightNo = (string)jObj.SelectToken(selectToken + i + ".flight_num");
-                current.Departure = (string)jObj.SelectToken(selectToken + i + ".departure_at");
-                current.Return = (string)jObj.SelectToken(selectToken + i + ".return_at");
-            }
+            //for (int i = 0; i < fields; i++)
+            //{
+            //    current.PriceHUF = (string)jObj.SelectToken(selectToken + i + ".price");
+            //    current.AirLine = (string)jObj.SelectToken(selectToken + i + ".airline");
+            //    current.FlightNo = (string)jObj.SelectToken(selectToken + i + ".flight_num");
+            //    current.Departure = (string)jObj.SelectToken(selectToken + i + ".departure_at");
+            //    current.Return = (string)jObj.SelectToken(selectToken + i + ".return_at");
+            //}
 
         }
     }

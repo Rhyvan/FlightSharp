@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace FlightSharpWebSite.Models
 {
     public class Flight
     {
-        public string Return { get; set; }
-        public string PriceHUF { get; set; }
+        [JsonProperty("return_at")]
+        public DateTime Return { get; set; }
+
+        [JsonProperty("price")]
+        public int PriceHUF { get; set; }
+
         public string Destination { get; set; }
-        public string Departure { get; set; }
-        public string FlightNo { get; set; }
 
+        [JsonProperty("departure_at")]
+        public DateTime Departure { get; set; }
+
+        [JsonProperty("flight_number")]
+        public int FlightNo { get; set; }
+
+        [JsonProperty("airline")]
         public string AirLine { get; set; }
-
 
         public Flight()
         {
@@ -26,6 +31,6 @@ namespace FlightSharpWebSite.Models
                                              Destination + " Price in HUF: " + PriceHUF;
 
 
-        public string ToJson() => JsonSerializer.Serialize<Flight>(this);
+        public string ToJson() => JsonConvert.SerializeObject(this); //System.Text.Json.JsonSerializer.Serialize<Flight>(this);
     }
 }
