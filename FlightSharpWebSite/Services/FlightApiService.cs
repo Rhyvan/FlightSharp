@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace FlightSharpWebSite
 {
-    public class FlightApiService
+    public class FlightApiService : IFlightApiService
     {
         private IClientService _client;
 
@@ -27,11 +27,10 @@ namespace FlightSharpWebSite
             var json = JObject.Parse(resp);
             var flightsJson = json["data"][destination].ToString();
             IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
-               .Select(kvp => kvp.Value);
+                .Select(kvp => kvp.Value);
 
 
             return flights;
         }
-
     }
 }

@@ -1,0 +1,10 @@
+﻿using System.Collections.Generic;
+using FlightSharpWebSite.Models;
+
+namespace FlightSharpWebSite.Services
+{
+    public interface IFlightApiService
+    {
+        public IEnumerable<Flight> GetFlights(string origin, string destination);
+    }
+}
