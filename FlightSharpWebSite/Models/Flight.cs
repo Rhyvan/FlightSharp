@@ -1,32 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace FlightSharpWebSite.Models
 {
     public class Flight
     {
-        public string Date { get; set; }
+        [JsonProperty("return_at")]
+        public DateTime Return { get; set; }
+
+        [JsonProperty("price")]
         public int PriceHUF { get; set; }
+
         public string Destination { get; set; }
-        public string Start { get; set; }
+
+        [JsonProperty("departure_at")]
+        public DateTime Departure { get; set; }
+
+        [JsonProperty("flight_number")]
         public int FlightNo { get; set; }
 
-        public Flight(string date, int priceHuf, string destination, string start, int flightNo)
+        [JsonProperty("airline")]
+        public string AirLine { get; set; }
+
+        public Flight()
         {
-            Date = date;
-            PriceHUF = priceHuf;
-            Destination = destination;
-            Start = start;
-            FlightNo = flightNo;
+
         }
 
-        public override string ToString() => "Flight Number: " + FlightNo + " Date: " + Date + " Start: " + Start + " Destination: " +
+        public override string ToString() => "Flight Number: " + FlightNo + " Date: " + Return + " Start: " + Departure + " Destination: " +
                                              Destination + " Price in HUF: " + PriceHUF;
 
 
-        public string ToJson() => JsonSerializer.Serialize<Flight>(this);
+        public string ToJson() => JsonConvert.SerializeObject(this); //System.Text.Json.JsonSerializer.Serialize<Flight>(this);
     }
 }
