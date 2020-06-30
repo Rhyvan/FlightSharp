@@ -1,4 +1,5 @@
 ﻿using FlightSharpWebSite.Models;
+using FlightSharpWebSite.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -10,21 +11,21 @@ namespace FlightSharpWebSite
 {
     public class FlightApiService : IFlightApiService
     {
-        private IRestClient _restClient;
+        private IClientService _client;
 
-        public FlightApiService()
-        {
-        }
 
-        public FlightApiService(IRestClient restClient)
+
+        public FlightApiService(IClientService clientService)
+
         {
-            _restClient = restClient;
+            _client = clientService;
         }
 
 
         public virtual IEnumerable<Flight> GetFlights(string origin, string destination)
         {
-            var resp = GetResponseAsString(origin, destination);
+            //var resp = GetResponseAsString(origin, destination);
+            var resp = _client.GetFlights(origin, destination, "HUF");
             var json = JObject.Parse(resp);
             var flightsJson = json["data"][destination].ToString();
             IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
@@ -33,6 +34,7 @@ namespace FlightSharpWebSite
 
             return flights;
         }
+
 
         public string GetResponseAsString(string origin, string destination)
         {
