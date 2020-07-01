@@ -1,18 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlightSharpWebSite.Models
 {
     public class Cart
     {
         public List<Flight> BookedFlights;
-        public User User { get; set; }
 
-        public Cart(User user)
+        List<Ticket> _Tickets;
+
+        public ReadOnlyCollection<Ticket> Tickets { get; private set; }
+
+        public Cart()
         {
-            this.User = user;
+            _Tickets = new List<Ticket>();
+            Tickets = _Tickets.AsReadOnly();
+        }
+
+        public bool AddToCart(Flight flight, int quantity)
+        {
+            try
+            {
+                if (IsInCart(flight))
+                {
+                    UpdateQuantity(flight, quantity);
+                }
+                else
+                {
+                    _Tickets.Add(new Ticket(flight, 1));
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public void DeleteFromCart(Flight flight)
+        {
+           
+            _Tickets.RemoveAll(x => x.Flight.Equals(flight));
+        }
+
+        public void UpdateQuantity(Flight flight, int quantity)
+        {
+            _Tickets.Where(x => x.Flight.Equals(flight))
+                .Select(x => x)
+                .FirstOrDefault()
+                .Quantity += quantity;
+        }
+
+        public bool IsInCart(Flight flight)
+        {
+            return _Tickets.Any(x => x.Flight.Equals(flight));
         }
     }
 }
