@@ -1,6 +1,48 @@
 ﻿var searchBtn = document.getElementById("search");
 var divForResults = document.getElementById("showResults");
+let buttons;
 
+function addEventListeners(buttonsList)
+{
+    buttonsList.forEach(function (currentBtn) {
+        currentBtn.addEventListener('click', function () {
+            var flightData = currentBtn.getAttribute("jsonData");
+            var obj = JSON.parse(flightData);
+
+            var price = obj.priceHUF;
+            var airLine = obj.airLine;
+            var departure = obj.departure;
+            var destination = obj.destination;
+            var expires = obj.expirationDate;
+            var returnDate = obj.return;
+            var flightNum = obj.flightNo;
+
+            var jsonToPost = `{
+                "Flight": {
+                    "price": ${price},
+                    "airline": ${airLine},
+                    "return_at": ${returnDate},
+                    "destination": ${destination},
+                    "flight_number": ${flightNum},
+                    "expires_at": ${expires},
+                    "departure": ${departure}
+                },
+                "Quantity": 1
+            }`;
+
+            makePostRequest("api/cart", jsonToPost);
+        }
+        )
+    })
+}
+
+function makePostRequest(whereToSend, whatToSend)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", whereToSend, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(whatToSend);
+}
 
 searchBtn.onclick = function () {
     var from = document.getElementById("from").value.toUpperCase();
@@ -27,6 +69,7 @@ searchBtn.onclick = function () {
 function hasNumber(myString) {
     return /\d/.test(myString);
 }
+
 
 function GetFlights(fromPlace, toPlace, callback) {
     fetch(`api/search?origin=${fromPlace}&destination=${toPlace}`, {
@@ -98,15 +141,16 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
 
         let tdButton = document.createElement("button");
         tdButton.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
+        tdButton.id = "AddBTN";
         tdButton.className = "blueBTN";
         tdButton.textContent = "Add";
         nextTR.appendChild(tdButton);
 
         table.appendChild(nextTR);
-
+        buttons = document.querySelectorAll("#AddBTN");
+        addEventListeners(buttons);
 
         JSON.stringify(arrayOfFlights[i]);
         console.log(JSON.stringify(arrayOfFlights[i]));
     }
-
 }
