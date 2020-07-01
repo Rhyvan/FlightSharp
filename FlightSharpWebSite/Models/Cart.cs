@@ -29,7 +29,7 @@ namespace FlightSharpWebSite.Models
                 }
                 else
                 {
-                    _Tickets.Add(new Ticket(flight));
+                    _Tickets.Add(new Ticket(flight, 1));
                 }
                 return true;
             }

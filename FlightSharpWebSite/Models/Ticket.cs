@@ -6,9 +6,14 @@
 
         public Flight Flight { get; set; }
 
-        public Ticket(Flight flight)
+        public Ticket(Flight flight, int quantity)
         {
             Flight = flight;
+            Quantity = quantity;
+        }
+        public Ticket()
+        {
+
         }
     }
 }
