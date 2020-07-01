@@ -58,6 +58,7 @@ namespace FlightSharpWebSite.Controllers
         //    return HttpStatusCode.OK;
         //}  
         
+        [HttpPost("cart")]
         public HttpStatusCode AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");

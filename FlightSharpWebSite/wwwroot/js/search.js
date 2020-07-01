@@ -17,20 +17,21 @@ function addEventListeners(buttonsList)
             var returnDate = obj.return;
             var flightNum = obj.flightNo;
 
-            var jsonToPost = `{
-                "Flight": {
-                    "price": ${price},
-                    "airline": ${airLine},
-                    "return_at": ${returnDate},
-                    "destination": ${destination},
-                    "flight_number": ${flightNum},
-                    "expires_at": ${expires},
-                    "departure": ${departure}
+            var jsonToPost =
+            {
+                Flight: {
+                    price: price,
+                    airline: airLine,
+                    return_at: returnDate,
+                    destination: destination,
+                    flight_number: flightNum,
+                    expires_at: expires,
+                    departure: departure
                 },
-                "Quantity": 1
-            }`;
+                Quantity: 1
+            }
 
-            makePostRequest("api/cart", jsonToPost);
+            makePostRequest("api/cart", JSON.stringify(jsonToPost));
         }
         )
     })
@@ -38,10 +39,11 @@ function addEventListeners(buttonsList)
 
 function makePostRequest(whereToSend, whatToSend)
 {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", whereToSend, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(whatToSend);
+    fetch(whereToSend, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: whatToSend
+    })
 }
 
 // handling click event on search button, also some input validation

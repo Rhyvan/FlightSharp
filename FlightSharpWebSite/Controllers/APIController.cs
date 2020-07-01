@@ -36,10 +36,10 @@ namespace FlightSharpWebSite.Controllers
             return flights.ToList();
         }
 
-        [HttpGet("addFlight")]
-        public ActionResult<Flight> GetClickedFlight(int numInFlightList)
+        [HttpPost("testing")]
+        public void GetClickedFlight()
         {
-            return currentFlights[numInFlightList];
+            Console.WriteLine("FU");
         }
     }
 }
