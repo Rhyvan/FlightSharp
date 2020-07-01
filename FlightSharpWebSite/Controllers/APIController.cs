@@ -35,11 +35,5 @@ namespace FlightSharpWebSite.Controllers
             }
             return flights.ToList();
         }
-
-        [HttpPost("testing")]
-        public void GetClickedFlight()
-        {
-            Console.WriteLine("FU");
-        }
     }
 }

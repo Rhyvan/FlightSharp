@@ -26,11 +26,12 @@ function addEventListeners(buttonsList)
                     destination: destination,
                     flight_number: flightNum,
                     expires_at: expires,
-                    departure: departure
+                    departure_at: departure
                 },
                 Quantity: 1
             }
 
+            console.log(JSON.stringify(jsonToPost));
             makePostRequest("api/cart", JSON.stringify(jsonToPost));
         }
         )

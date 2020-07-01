@@ -12,6 +12,7 @@ namespace FlightSharpWebSite.Models
         [JsonProperty("price")]
         public int PriceHUF { get; set; }
 
+        [JsonProperty("destination")]
         public string Destination { get; set; }
 
         [JsonProperty("departure_at")]

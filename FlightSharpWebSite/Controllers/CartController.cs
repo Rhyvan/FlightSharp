@@ -1,15 +1,18 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
 using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
 using FlightSharpWebSite.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class CartController : ControllerBase
     {
@@ -36,29 +39,29 @@ namespace FlightSharpWebSite.Controllers
             return Ok("Session Data set");
         }
 
-        //[HttpPost]
-        //public HttpStatusCode AddFlight(Ticket ticket)
-        //{
-        //    var cart = HttpContext.Session.GetObject<Cart>("Cart");
-        //    if (cart == null)
-        //    {
-        //        cart = new Cart();
-        //        // return HttpStatusCode.BadRequest;
-        //    }
+        /*[HttpPost("cart")]
+        public HttpStatusCode addflight(Ticket ticket)
+        {
+            var cart = _sessionService.GetSessionObject<Cart>("Cart");
 
-        //    var flight = ticket.Flight;
-        //    var quantity = ticket.Quantity;
+            if (cart == null)
+            {
+                return HttpStatusCode.BadRequest;
+            }
 
-        //    if (!cart.AddToCart(flight, quantity))
-        //    {
-        //        // this actually could happen either due to server error or bad query
-        //        return HttpStatusCode.InternalServerError;
-        //    }
+            var flight = ticket.Flight;
+            var quantity = ticket.Quantity;
 
-        //    return HttpStatusCode.OK;
-        //}  
-        
-        [HttpPost("cart")]
+            if (!cart.AddToCart(flight, quantity))
+            {
+                // this actually could happen either due to server error or bad query
+                return HttpStatusCode.InternalServerError;
+            }
+
+            return HttpStatusCode.OK;
+        }*/
+
+        [HttpPost("ASD")]
         public HttpStatusCode AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
@@ -91,6 +94,14 @@ namespace FlightSharpWebSite.Controllers
             }
 
             return HttpStatusCode.OK;
+        }
+        
+        [HttpPost("cart")]
+        public async Task<IActionResult> asdasd(Ticket ticket)
+        {
+            await Task.Run(() => ticket.Flight.AirLine = "asd");
+            System.Console.WriteLine(ticket.Flight.AirLine);
+            return NoContent();
         }
     }
 }
