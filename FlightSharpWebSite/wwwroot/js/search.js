@@ -17,16 +17,29 @@ searchBtn.onclick = function () {
         }
 
         var jsonString = JSON.stringify(toSend);
-        GetReq(from, to);
+        GetFked(from, to, returnJson);
     }
 }
 
-function GetReq(fromPlace, toPlace) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", `api/search?origin=${fromPlace}&destination=${toPlace}`, true);
-    xmlHttp.send(null);
-}
 
 function hasNumber(myString) {
     return /\d/.test(myString);
+}
+
+function GetFked(fromPlace, toPlace, callback) {
+    fetch(`api/search?origin=${fromPlace}&destination=${toPlace}`, {
+        method: 'GET',
+        credentials: 'same-origin'
+    })
+        .then(response => response.json())
+        .then(json_response => callback(json_response));
+}
+
+const returnJson = function (arrayOfFlights)
+{
+    for (var i = 0; i < arrayOfFlights.length; i++) {
+        JSON.stringify(arrayOfFlights[i]);
+        console.log(JSON.stringify(arrayOfFlights[i]));
+    }
+
 }

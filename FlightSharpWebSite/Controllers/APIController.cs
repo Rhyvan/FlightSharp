@@ -27,7 +27,6 @@ namespace FlightSharpWebSite.Controllers
         {
             IEnumerable<Flight> flights = flightApiService.GetFlights(origin, destination);
             return flights.ToList();
-
         }
     }
 }
