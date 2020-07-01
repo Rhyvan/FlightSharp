@@ -150,10 +150,8 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         nextTR.appendChild(tdButton);
 
         table.appendChild(nextTR);
-
-        // add buttons with eventlisteners to be able to send PostReq
-        buttons = document.querySelectorAll("#AddBTN");
-        addEventListeners(buttons);
-
     }
+    // add buttons with eventlisteners to be able to send PostReq
+    buttons = document.querySelectorAll("#AddBTN");
+    addEventListeners(buttons);
 }
