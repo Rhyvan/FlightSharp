@@ -13,6 +13,7 @@ namespace FlightSharpWebSite.Controllers
     [Route("api")]
     public class APIController : ControllerBase
     {
+        public List<Flight> currentFlights = new List<Flight>();
         private ClientService clientService;
         private FlightApiService flightApiService;
         public APIController()
@@ -25,8 +26,20 @@ namespace FlightSharpWebSite.Controllers
         [HttpGet("search")]
         public ActionResult<IEnumerable<Flight>> GetSearchedFlights(string origin, string destination)
         {
+            currentFlights.Clear();
             IEnumerable<Flight> flights = flightApiService.GetFlights(origin, destination);
+            foreach (var flight in flights)
+            {
+                currentFlights.Add(flight);
+                Console.WriteLine(flight);
+            }
             return flights.ToList();
+        }
+
+        [HttpGet("addFlight")]
+        public ActionResult<Flight> GetClickedFlight(int numInFlightList)
+        {
+            return currentFlights[numInFlightList];
         }
     }
 }

@@ -19,7 +19,7 @@ searchBtn.onclick = function () {
         }
 
         var jsonString = JSON.stringify(toSend);
-        GetFked(from, to, createAndSetFlightsHTML);
+        GetFlights(from, to, createAndSetFlightsHTML);
         
     }
 }
@@ -29,7 +29,16 @@ function hasNumber(myString) {
     return /\d/.test(myString);
 }
 
-function GetFked(fromPlace, toPlace, callback) {
+function GetFlightToAdd(numberInList) {
+    fetch(`api/addlFlight?numInFlightList=${numberInList}`, {
+        method: 'GET',
+        credentials: 'same-origin'
+    })
+        /*.then(response => response.json())
+        .then(json_response => callback(json_response))*/
+}
+
+function GetFlights(fromPlace, toPlace, callback) {
     fetch(`api/search?origin=${fromPlace}&destination=${toPlace}`, {
         method: 'GET',
         credentials: 'same-origin'
@@ -40,6 +49,7 @@ function GetFked(fromPlace, toPlace, callback) {
 
 const createAndSetFlightsHTML = function (arrayOfFlights)
 {
+    /*<button class="blueBTN" id="search">Search</button>*/
     //divForResults.innerHTML = "";
     let table = document.createElement("table");
     table.className = "divInputs";
@@ -67,12 +77,16 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
     thForReturn.appendChild(document.createTextNode("Return"));
     header.appendChild(thForReturn);
 
+    let thForButton = document.createElement("th");
+    thForButton.appendChild(document.createTextNode("Add to cart"));
+    header.appendChild(thForButton);
+
     divForResults.appendChild(table);
 
 
     for (var i = 0; i < arrayOfFlights.length; i++) {
         let nextTR = document.createElement("tr");
-        nextTR.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
+        //nextTR.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
 
         let tdForAirLine = document.createElement("td");
         tdForAirLine.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].airLine)}`));
@@ -93,6 +107,12 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         let tdForReturn = document.createElement("td");
         tdForReturn.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].return)}`));
         nextTR.appendChild(tdForReturn);
+
+        let tdButton = document.createElement("button");
+        tdButton.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
+        tdButton.className = "blueBTN";
+        tdButton.textContent = "Add";
+        nextTR.appendChild(tdButton);
 
         table.appendChild(nextTR);
 
