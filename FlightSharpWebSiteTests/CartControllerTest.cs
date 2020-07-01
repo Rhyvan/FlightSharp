@@ -72,7 +72,7 @@ namespace FlightSharpWebSiteTests
         {
             var cart = new Cart();
             var key = "Cart";
-            var partialData = "{ \"Flight\": { \"airline\" : \"LOT\"},\"Quantity\": 1}");
+            string partialData = "{ \"Flight\": { \"airline\" : \"LOT\"},\"Quantity\": 1}";
 
             sessionService.Configure().GetSessionObject<Cart>(key).Returns(cart);
 
