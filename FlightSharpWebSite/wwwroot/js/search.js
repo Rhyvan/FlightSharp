@@ -20,22 +20,12 @@ searchBtn.onclick = function () {
 
         var jsonString = JSON.stringify(toSend);
         GetFlights(from, to, createAndSetFlightsHTML);
-        
     }
 }
 
 
 function hasNumber(myString) {
     return /\d/.test(myString);
-}
-
-function GetFlightToAdd(numberInList) {
-    fetch(`api/addlFlight?numInFlightList=${numberInList}`, {
-        method: 'GET',
-        credentials: 'same-origin'
-    })
-        /*.then(response => response.json())
-        .then(json_response => callback(json_response))*/
 }
 
 function GetFlights(fromPlace, toPlace, callback) {
@@ -49,7 +39,6 @@ function GetFlights(fromPlace, toPlace, callback) {
 
 const createAndSetFlightsHTML = function (arrayOfFlights)
 {
-    /*<button class="blueBTN" id="search">Search</button>*/
     //divForResults.innerHTML = "";
     let table = document.createElement("table");
     table.className = "divInputs";
@@ -86,7 +75,6 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
 
     for (var i = 0; i < arrayOfFlights.length; i++) {
         let nextTR = document.createElement("tr");
-        //nextTR.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
 
         let tdForAirLine = document.createElement("td");
         tdForAirLine.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].airLine)}`));
@@ -122,5 +110,3 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
     }
 
 }
-
-/*return priceHUF destination departure flightNo airLine*/
