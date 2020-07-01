@@ -16,7 +16,6 @@ namespace FlightSharpWebSite
 
 
         public FlightApiService(IClientService clientService)
-
         {
             _client = clientService;
         }
@@ -58,5 +57,6 @@ namespace FlightSharpWebSite
         public IEnumerable<Flight> GetFlights(string origin, string destination);
         public IEnumerable<Flight> GetFlights(string origin, string destination, string currency);
         public IEnumerable<Flight> GetFlights(string origin, string destination, string currency, int maxPrice);
+
     }
 }
