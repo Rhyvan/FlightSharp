@@ -44,6 +44,7 @@ function makePostRequest(whereToSend, whatToSend)
     xhr.send(whatToSend);
 }
 
+// handling click event on search button, also some input validation
 searchBtn.onclick = function () {
     var from = document.getElementById("from").value.toUpperCase();
     var to = document.getElementById("to").value.toUpperCase();
@@ -70,7 +71,7 @@ function hasNumber(myString) {
     return /\d/.test(myString);
 }
 
-
+// send GET request to APIController for retrieving flight data
 function GetFlights(fromPlace, toPlace, callback) {
     fetch(`api/search?origin=${fromPlace}&destination=${toPlace}`, {
         method: 'GET',
@@ -83,6 +84,8 @@ function GetFlights(fromPlace, toPlace, callback) {
 const createAndSetFlightsHTML = function (arrayOfFlights)
 {
     //divForResults.innerHTML = "";
+
+    // create table with header
     let table = document.createElement("table");
     table.className = "divInputs";
     let header = document.createElement("tr");
@@ -115,7 +118,7 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
 
     divForResults.appendChild(table);
 
-
+    // create and set rows with provided flight data
     for (var i = 0; i < arrayOfFlights.length; i++) {
         let nextTR = document.createElement("tr");
 
@@ -147,10 +150,10 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         nextTR.appendChild(tdButton);
 
         table.appendChild(nextTR);
+
+        // add buttons with eventlisteners to be able to send PostReq
         buttons = document.querySelectorAll("#AddBTN");
         addEventListeners(buttons);
 
-        JSON.stringify(arrayOfFlights[i]);
-        console.log(JSON.stringify(arrayOfFlights[i]));
     }
 }
