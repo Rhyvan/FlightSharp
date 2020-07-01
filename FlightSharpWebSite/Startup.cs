@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlightSharpWebSite.Models;
+using FlightSharpWebSite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +26,10 @@ namespace FlightSharpWebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
+
+            services.AddSingleton<SessionService>();
+
+            services.AddHttpContextAccessor();
 
             services.AddSession();
             //services.AddSession(options =>
