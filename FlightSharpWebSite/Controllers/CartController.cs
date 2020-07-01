@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.ObjectModel;
+using System.Net;
 using System.Text.Json;
 using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
@@ -11,7 +12,7 @@ namespace FlightSharpWebSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase
+    public class CartController : Controller
     {
         private readonly SessionService _sessionService;
 
@@ -22,7 +23,7 @@ namespace FlightSharpWebSite.Controllers
 
         // GET: api/<CartController>
         [HttpGet]
-        public OkObjectResult Get()
+        public ViewResult Get()
         {
             var cart = HttpContext.Session.GetObject<Cart>("Cart");
             if (cart == null)
@@ -31,9 +32,9 @@ namespace FlightSharpWebSite.Controllers
                 HttpContext.Session.SetString("userName", "anonym");
                 HttpContext.Session.SetObject("Cart", cart);
             }
+            ViewData["Cart"] = cart;
 
-
-            return Ok("Session Data set");
+            return View("~/Views/Home/Cart.cshtml");
         }
 
         //[HttpPost]
@@ -58,6 +59,7 @@ namespace FlightSharpWebSite.Controllers
         //    return HttpStatusCode.OK;
         //}  
         
+        [HttpPost]
         public HttpStatusCode AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");

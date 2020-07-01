@@ -1,0 +1,27 @@
+﻿
+
+@{
+    ViewData["Title"] = "Cart";
+    var cart = ViewData["Cart"] as FlightSharpWebSite.Models.Cart;
+}
+
+<h1>View</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Flight</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in cart.Tickets)
+        {
+        <tr>
+            <td>@item.Flight.AirLine</td>
+            <td>@item.Quantity</td>
+        </tr>
+        }
+        <tr></tr>
+    </tbody>
+</table>
