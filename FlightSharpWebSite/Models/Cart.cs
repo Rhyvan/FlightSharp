@@ -46,10 +46,16 @@ namespace FlightSharpWebSite.Models
 
         public void UpdateQuantity(Flight flight, int quantity)
         {
-            Tickets.Where(x => x.Flight.Equals(flight))
+            var ticket = Tickets.Where(x => x.Flight.Equals(flight))
                 .Select(x => x)
-                .FirstOrDefault()
-                .Quantity += quantity;
+                .FirstOrDefault();
+
+            ticket.Quantity += quantity;
+            if (ticket.Quantity == 0)
+            {
+                DeleteFromCart(flight);
+            }
+               
         }
 
         public bool IsInCart(Flight flight)

@@ -100,5 +100,31 @@ namespace FlightSharpWebSite.Controllers
             _sessionService.SetSessionObject("Cart", cart);
             return Ok();
         }
+
+        [HttpPost("delete")]
+        public IActionResult DeleteFlights(dynamic data)
+        {
+            var cart = _sessionService.GetSessionObject<Cart>("Cart");
+
+            if (cart == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var flight = data.GetProperty("Flight").ToString();
+                flight = JsonSerializer.Deserialize<Flight>(flight);
+                cart.DeleteFromCart(flight);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            _sessionService.SetSessionObject("Cart", cart);
+
+            return Ok();
+        }
     }
 }
