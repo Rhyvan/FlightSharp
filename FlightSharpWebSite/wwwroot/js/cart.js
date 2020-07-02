@@ -1,38 +1,78 @@
-﻿function addEventListeners(buttonsList) {
-    buttonsList.forEach(function (currentBtn) {
-        currentBtn.addEventListener('click',
-            function () {
-                var flightData = currentBtn.getAttribute("jsonData");
-                var obj = JSON.parse(flightData);
+﻿Run();
+const add = "plus";
+const minus = "minus";
 
-                var price = obj.priceHUF;
-                var airLine = obj.airLine;
-                var departure = obj.departure;
-                var destination = obj.destination;
-                var expires = obj.expirationDate;
-                var returnDate = obj.return;
-                var flightNum = obj.flightNo;
-
-
-                var jsonToPost =
-                {
-                    "Flight": {
-                        "PriceHUF": price,
-                        "AirLine": airLine,
-                        "Return": returnDate,
-                        "Destination": destination,
-                        "FlightNo": flightNum,
-                        "ExpirationDate": expires,
-                        "Departure": departure
-                    },
-                    "Quantity": 1
-                }
-
-                makePostRequest("api/cart", JSON.stringify(jsonToPost));
-            }
-        );
+function Run() {
+    document.querySelector("table").addEventListener("click", (event) => {
+        if (event.target.matches("#minus")) {
+            changeQuantityAndSend(event.target, minus);
+        }
+        if (event.target.matches("#plus")) {
+            changeQuantityAndSend(event.target, add);
+        }
     });
 }
 
-plusButtons = document.querySelectorAll("plus");
-addEventListeners(plusButtons);
+
+function changeQuantityAndSend(target, option) {
+    let selected = target.closest(`[data-json]`);
+    let ticket = selected.dataset.json;
+    let ticketJson = JSON.parse(ticket);
+    let amountNode = selected.querySelector(".item-amount");
+    let change = 0;
+
+    if (option == add) {
+        change = 1;
+    } else if (option == minus) {
+        change = -1
+    }
+
+    let { amount, deletable } = checkGetNewAmountIsValid(parseInt(amountNode.innerText), change);
+    ticketJson.Quantity = amount;
+
+    if (deletable) {
+        deleteItemFromCart(selected);
+    }
+
+    makePostRequest("api/cart", ticketJson, () => {
+        amountNode.innerHTML = parseInt(amountNode.innerText) + change;
+    });
+}
+
+function checkGetNewAmountIsValid(original, change) {
+    let newAmount = original + change;
+
+    if (newAmount > 0) {
+        return { amount: change, deletable: false };
+    }
+    if (newAmount == 0) {
+        return { amount: change, deletable: true } 
+    }
+    if (newAmount < 0) { 
+        return { amount: original, deletable: true}
+    }
+}
+/**
+* Deletes a DOM element.
+* @param target The target DOM element, which will be deleted
+*/
+function deleteItemFromCart(target) {
+    target.parentNode.removeChild(target);
+}
+
+function makePostRequest(route, data, callback) {
+    fetch(route, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => callback())
+        .catch(() => errorHandler());
+}
+
+function errorHandler() {
+    console.log("some error occurred");
+}
