@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightSharpWebSite", "FlightSharpWebSite\FlightSharpWebSite.csproj", "{24EF34D2-BC6E-44B8-914E-4FE95347D698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightSharpWebSiteTests", "FlightSharpWebSiteTests\FlightSharpWebSiteTests.csproj", "{C2C87933-A2C4-46B4-8770-151CED8CE9AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightSharpWebSiteTests", "FlightSharpWebSiteTests\FlightSharpWebSiteTests.csproj", "{C2C87933-A2C4-46B4-8770-151CED8CE9AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

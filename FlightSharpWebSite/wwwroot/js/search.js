@@ -84,7 +84,7 @@ function GetFlights(fromPlace, toPlace, callback) {
         credentials: 'same-origin'
     })
         .then(response => response.json())
-        .then(json_response => callback(json_response))
+        .then(json_response => callback(json_response));
 }
 
 const createAndSetFlightsHTML = function (arrayOfFlights)

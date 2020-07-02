@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlightSharpWebSite.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("Home/api")]
     public class APIController : ControllerBase
     {
         public List<Flight> currentFlights = new List<Flight>();
