@@ -23,7 +23,7 @@ namespace FlightSharpWebSite.Controllers
             _sessionService = sessionService;
         }
 
-        // GET: api/<CartController>
+        
         [HttpGet]
         public ViewResult Get()
         {
@@ -98,18 +98,5 @@ namespace FlightSharpWebSite.Controllers
             }
             return HttpStatusCode.OK;
         }
-
-        //[HttpPost("cart")]
-        //public async Task<IActionResult> WORK(dynamic data)
-        //{
-        //    var flight = data.GetProperty("Flight").ToString();
-        //    var quantity = data.GetProperty("Quantity").GetInt32();
-        //    //var json = JObject.Parse(flight);
-
-        //    /*var price = (string)flight.SelectToken("price");
-        //    System.Console.WriteLine("price was: " +  price);*/
-        //    System.Console.WriteLine("Flight is: " + flight);
-        //    return NoContent();
-        //}
     }
 }
