@@ -72,7 +72,7 @@ searchBtn.onclick = function () {
 
         let maxPrice = document.getElementById("maxPrice").value;
 
-        if (maxPrice.length == 0) {
+        if (maxPrice.length == 0 || (maxPrice.length > 0 && maxPrice[0] == 0)) {
             maxPrice = 0;
         }
 
