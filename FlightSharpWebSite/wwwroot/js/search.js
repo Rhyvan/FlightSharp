@@ -104,8 +104,12 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
     thForAirLine.appendChild(document.createTextNode("AirLine"));
     header.appendChild(thForAirLine);
 
+    let thForOrigin = document.createElement("th");
+    thForOrigin.appendChild(document.createTextNode("From"));
+    header.appendChild(thForOrigin);
+
     let thForDestination = document.createElement("th");
-    thForDestination.appendChild(document.createTextNode("Destination"));
+    thForDestination.appendChild(document.createTextNode("To"));
     header.appendChild(thForDestination);
 
     let thForPrice = document.createElement("th");
@@ -133,6 +137,10 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         let tdForAirLine = document.createElement("td");
         tdForAirLine.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].airLine)}`));
         nextTR.appendChild(tdForAirLine);
+
+        let tdForOrigin = document.createElement("td");
+        tdForOrigin.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].origin)}`));
+        nextTR.appendChild(tdForOrigin);
 
         let tdForDestination = document.createElement("td");
         tdForDestination.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].destination)}`));
