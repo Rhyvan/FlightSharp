@@ -12,7 +12,7 @@ using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
-    [Route("api")]
+    [Route("Home/api")]
     [ApiController]
     public class CartController : Controller
     {
@@ -65,7 +65,7 @@ namespace FlightSharpWebSite.Controllers
         //    return HttpStatusCode.OK;
         //}  
         
-        [HttpPost("cart")]
+        [HttpPost("")]
         public HttpStatusCode AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
@@ -99,17 +99,17 @@ namespace FlightSharpWebSite.Controllers
             return HttpStatusCode.OK;
         }
 
-        //[HttpPost("cart")]
-        //public async Task<IActionResult> WORK(dynamic data)
-        //{
-        //    var flight = data.GetProperty("Flight").ToString();
-        //    var quantity = data.GetProperty("Quantity").GetInt32();
-        //    //var json = JObject.Parse(flight);
+        [HttpPost("Cart")]
+        public async Task<IActionResult> WORK(dynamic data)
+        {
+            var flight = data.GetProperty("Flight").ToString();
+            var quantity = data.GetProperty("Quantity").GetInt32();
+            //var json = JObject.Parse(flight);
 
-        //    /*var price = (string)flight.SelectToken("price");
-        //    System.Console.WriteLine("price was: " +  price);*/
-        //    System.Console.WriteLine("Flight is: " + flight);
-        //    return NoContent();
-        //}
+            /*var price = (string)flight.SelectToken("price");
+            System.Console.WriteLine("price was: " +  price);*/
+            System.Console.WriteLine("Flight is: " + flight);
+            return NoContent();
+        }
     }
 }
