@@ -16,6 +16,7 @@ function addEventListeners(buttonsList)
             var expires = obj.expirationDate;
             var returnDate = obj.return;
             var flightNum = obj.flightNo;
+            var origin = obj.origin;
 
 
             var jsonToPost =
@@ -27,7 +28,8 @@ function addEventListeners(buttonsList)
                     "Destination": destination,
                     "FlightNo": flightNum,
                     "ExpirationDate" : expires,
-                    "Departure" : departure
+                    "Departure": departure,
+                    "Origin": origin
                 },
                 "Quantity": 1
             }
@@ -90,7 +92,7 @@ function GetFlights(fromPlace, toPlace, callback) {
 const createAndSetFlightsHTML = function (arrayOfFlights)
 {
     //divForResults.innerHTML = "";
-
+    console.log(arrayOfFlights[0]);
     // create table with header
     let table = document.createElement("table");
     table.className = "divInputs";
@@ -150,6 +152,7 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
 
         let tdButton = document.createElement("button");
         tdButton.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
+        tdButton.setAttribute("origin", JSON.stringify(arrayOfFlights[i].Origin))
         tdButton.id = "AddBTN";
         tdButton.className = "blueBTN";
         tdButton.textContent = "Add";

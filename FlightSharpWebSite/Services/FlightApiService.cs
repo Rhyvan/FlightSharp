@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace FlightSharpWebSite
 {
@@ -28,6 +29,12 @@ namespace FlightSharpWebSite
             var flightsJson = json["data"][destination].ToString();
             IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
                 .Select(kvp => kvp.Value);
+            foreach (var flight in flights)
+            {
+                flight.Origin = origin;
+                flight.Destination = destination;
+            }
+
             return flights;
         }
 
