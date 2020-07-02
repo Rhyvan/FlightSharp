@@ -33,6 +33,8 @@ function addEventListeners(buttonsList) {
                 }
 
                 makePostRequest("api/cart", JSON.stringify(jsonToPost));
+                console.log(obj);
+                console.log(jsonToPost);
             }
         );
     });
