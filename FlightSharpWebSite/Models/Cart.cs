@@ -9,14 +9,12 @@ namespace FlightSharpWebSite.Models
     {
         public List<Flight> BookedFlights;
 
-        List<Ticket> _Tickets;
+        public List<Ticket> Tickets { get; set; }
 
-        public ReadOnlyCollection<Ticket> Tickets { get; set; } //cannot deserialize...
 
         public Cart()
         {
-            _Tickets = new List<Ticket>();
-            Tickets = _Tickets.AsReadOnly();
+            Tickets = new List<Ticket>();
         }
 
         public bool AddToCart(Flight flight, int quantity)
@@ -29,7 +27,7 @@ namespace FlightSharpWebSite.Models
                 }
                 else
                 {
-                    _Tickets.Add(new Ticket(flight, quantity));
+                    Tickets.Add(new Ticket(flight, quantity));
                 }
                 return true;
             }
@@ -43,12 +41,12 @@ namespace FlightSharpWebSite.Models
         public void DeleteFromCart(Flight flight)
         {
            
-            _Tickets.RemoveAll(x => x.Flight.Equals(flight));
+            Tickets.RemoveAll(x => x.Flight.Equals(flight));
         }
 
         public void UpdateQuantity(Flight flight, int quantity)
         {
-            _Tickets.Where(x => x.Flight.Equals(flight))
+            Tickets.Where(x => x.Flight.Equals(flight))
                 .Select(x => x)
                 .FirstOrDefault()
                 .Quantity += quantity;
@@ -56,7 +54,7 @@ namespace FlightSharpWebSite.Models
 
         public bool IsInCart(Flight flight)
         {
-            return _Tickets.Any(x => x.Flight.Equals(flight));
+            return Tickets.Any(x => x.Flight.Equals(flight));
         }
     }
 }
