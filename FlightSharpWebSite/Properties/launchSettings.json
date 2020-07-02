@@ -27,6 +27,7 @@
     "Project": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "https://localhost:5001/search.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

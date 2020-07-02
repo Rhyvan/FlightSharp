@@ -17,6 +17,7 @@ function addEventListeners(buttonsList)
             var returnDate = obj.return;
             var flightNum = obj.flightNo;
 
+
             var jsonToPost =
             {
                 Flight: {
@@ -31,7 +32,6 @@ function addEventListeners(buttonsList)
                 Quantity: 1
             }
 
-            console.log(JSON.stringify(jsonToPost));
             makePostRequest("api/cart", JSON.stringify(jsonToPost));
         }
         )
@@ -43,6 +43,9 @@ function makePostRequest(whereToSend, whatToSend)
     fetch(whereToSend, {
         method: 'POST',
         credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: whatToSend
     })
 }

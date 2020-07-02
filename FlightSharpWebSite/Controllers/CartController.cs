@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FlightSharpWebSite.Models;
@@ -8,7 +7,6 @@ using FlightSharpWebSite.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
@@ -51,6 +49,7 @@ namespace FlightSharpWebSite.Controllers
 
             var flight = ticket.Flight;
             var quantity = ticket.Quantity;
+            System.Console.WriteLine("This flight was: " + flight.AirLine + "  with price in HUF: " + flight.PriceHUF);
 
             if (!cart.AddToCart(flight, quantity))
             {
@@ -61,7 +60,7 @@ namespace FlightSharpWebSite.Controllers
             return HttpStatusCode.OK;
         }*/
 
-        [HttpPost("ASD")]
+        [HttpPost("OK")]
         public HttpStatusCode AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
@@ -92,15 +91,19 @@ namespace FlightSharpWebSite.Controllers
             {
                 return HttpStatusCode.BadRequest;
             }
-
             return HttpStatusCode.OK;
         }
-        
+
         [HttpPost("cart")]
-        public async Task<IActionResult> asdasd(Ticket ticket)
+        public async Task<IActionResult> WORK(dynamic data)
         {
-            await Task.Run(() => ticket.Flight.AirLine = "asd");
-            System.Console.WriteLine(ticket.Flight.AirLine);
+            var flight = data.GetProperty("Flight").ToString();
+            var quantity = data.GetProperty("Quantity").GetInt32();
+            //var json = JObject.Parse(flight);
+
+            /*var price = (string)flight.SelectToken("price");
+            System.Console.WriteLine("price was: " +  price);*/
+            System.Console.WriteLine("Flight is: " + flight);
             return NoContent();
         }
     }
