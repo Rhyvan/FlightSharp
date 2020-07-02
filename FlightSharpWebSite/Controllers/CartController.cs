@@ -23,7 +23,7 @@ namespace FlightSharpWebSite.Controllers
             _sessionService = sessionService;
         }
 
-        // GET: api/<CartController>
+        
         [HttpGet]
         public ViewResult Get()
         {
@@ -72,7 +72,7 @@ namespace FlightSharpWebSite.Controllers
 
             if (cart == null)
             {
-                return HttpStatusCode.BadRequest;
+                return NotFound();
             }
 
             try
@@ -89,27 +89,16 @@ namespace FlightSharpWebSite.Controllers
                 if (!cart.AddToCart(flight, quantity))
                 {
                     // this actually could happen either due to server error or bad query
-                    return HttpStatusCode.InternalServerError;
+                    return StatusCode(500);
                 }
             }
             catch (System.Exception)
             {
-                return HttpStatusCode.BadRequest;
+                return BadRequest();
             }
-            return HttpStatusCode.OK;
-        }
 
-        [HttpPost("Cart")]
-        public async Task<IActionResult> WORK(dynamic data)
-        {
-            var flight = data.GetProperty("Flight").ToString();
-            var quantity = data.GetProperty("Quantity").GetInt32();
-            //var json = JObject.Parse(flight);
-
-            /*var price = (string)flight.SelectToken("price");
-            System.Console.WriteLine("price was: " +  price);*/
-            System.Console.WriteLine("Flight is: " + flight);
-            return NoContent();
+            _sessionService.SetSessionObject("Cart", cart);
+            return Ok();
         }
     }
 }

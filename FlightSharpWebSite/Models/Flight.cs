@@ -9,7 +9,7 @@ namespace FlightSharpWebSite.Models
     {
         [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("return_at")]
-        public DateTime? Return { get; set; }
+        public DateTime Return { get; set; }
 
         [JsonProperty("price")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
@@ -22,7 +22,7 @@ namespace FlightSharpWebSite.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("departure_at")]
-        public DateTime? Departure { get; set; }
+        public DateTime Departure { get; set; }
 
         [JsonProperty("flight_number")]
         [Required]
@@ -33,7 +33,7 @@ namespace FlightSharpWebSite.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("expires_at")]
-        public DateTime? ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public Flight()
         {

@@ -7,6 +7,7 @@ using NSubstitute;
 using NSubstitute.Extensions;
 using NUnit.Framework;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlightSharpWebSiteTests
 {
@@ -40,7 +41,7 @@ namespace FlightSharpWebSiteTests
 
                 var result = controller.AddFlight(root);
 
-                Assert.That(HttpStatusCode.OK == result);
+                Assert.IsInstanceOf<OkResult>(result);
             } 
         }
 
@@ -53,17 +54,18 @@ namespace FlightSharpWebSiteTests
 
                 var result = controller.AddFlight(root);
 
-                Assert.That(HttpStatusCode.BadRequest == result);
+                Assert.IsInstanceOf<NotFoundResult>(result);
             }
         }
 
         [TestCase("randomstring")]
         [TestCase("{ \"Flight\": \"badtext\",\"Quantity\": 1}")]
-        public void POST_AddFlightTest_WrongDataInput(string input)
+        public void POST_AddFlightTest_HasSession_WrongDataInput(string input)
         {
+            sessionService.Configure().GetSessionObject<Cart>("Cart").Returns(new Cart());
             var result = controller.AddFlight(input);
 
-            Assert.That(HttpStatusCode.BadRequest == result);
+            Assert.IsInstanceOf<BadRequestResult>(result);
         }
         
         [Test]
@@ -82,9 +84,9 @@ namespace FlightSharpWebSiteTests
 
                 var result = controller.AddFlight(root);
 
-                Assert.That(HttpStatusCode.InternalServerError == result);
+                var objectResult = result as StatusCodeResult;
+                Assert.AreEqual(500, objectResult.StatusCode);
             }
         }
-
     }
 }
