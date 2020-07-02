@@ -29,7 +29,9 @@
             <td>@Html.DisplayFor(m => item.Flight.PriceHUF)</td>
             <td class="item-amount">@item.Quantity</td>
             <td>
-                <button id="minus" class="minus">-</button><button id="plus" class="plus">+</button>
+                <button class="minus btn btn-primary">-</button>
+                <button class="plus btn btn-primary">+</button>
+                <input class="del btn btn-outline-danger" type="button" value="X"/>
             </td>
         </tr>
     }

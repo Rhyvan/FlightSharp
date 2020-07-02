@@ -4,11 +4,14 @@ const minus = "minus";
 
 function Run() {
     document.querySelector("table").addEventListener("click", (event) => {
-        if (event.target.matches("#minus")) {
+        if (event.target.classList.contains("minus")) {
             changeQuantityAndSend(event.target, minus);
         }
-        if (event.target.matches("#plus")) {
+        if (event.target.classList.contains("plus")) {
             changeQuantityAndSend(event.target, add);
+        }
+        if (event.target.classList.contains("del")) {
+            deleteAllItemFromCart(event.target)
         }
     });
 }
@@ -58,6 +61,16 @@ function checkGetNewAmountIsValid(original, change) {
 */
 function deleteItemFromCart(target) {
     target.parentNode.removeChild(target);
+}
+
+function deleteAllItemFromCart(buttonTarget) {
+
+    let targetRow = buttonTarget.closest("[data-json]");
+    let ticketJson = JSON.parse(targetRow.dataset.json);
+
+    makePostRequest("api/delete", ticketJson, () => {
+        deleteItemFromCart(targetRow);
+    });
 }
 
 function makePostRequest(route, data, callback) {
