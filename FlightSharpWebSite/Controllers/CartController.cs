@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Text.Json;
 using FlightSharpWebSite.Models;
@@ -6,7 +7,7 @@ using FlightSharpWebSite.Services;
 using FlightSharpWebSite.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
@@ -25,15 +26,19 @@ namespace FlightSharpWebSite.Controllers
         [HttpGet]
         public ViewResult Get()
         {
-            var cart = HttpContext.Session.GetObject<Cart>("Cart");
+            var cart = _sessionService.GetSessionObject<Cart>("Cart");
+ 
             if (cart == null)
             {
                 cart = new Cart();
-                HttpContext.Session.SetString("userName", "anonym");
-                HttpContext.Session.SetObject("Cart", cart);
-            }
-            ViewData["Cart"] = cart;
 
+                //TODO SET these sessions in homepage!
+                _sessionService.SetSessionString("userName", "anonym");
+                _sessionService.SetSessionObject("Cart", cart);
+            }
+
+            ViewData["Cart"] = cart;
+        
             return View("~/Views/Home/Cart.cshtml");
         }
 
