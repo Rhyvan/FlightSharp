@@ -11,15 +11,28 @@
     <thead>
         <tr>
             <th>Flight</th>
+            <th>Price</th>
             <th>Quantity</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in cart.Tickets)
         {
-        <tr>
-            <td>@item.Flight.AirLine</td>
+        <tr data-expire="@item.Flight.ExpirationDate">
+            <td>
+                <div style="display: flex; flex-direction: column;">
+                    <h5> @item.Flight.Origin  - @item.Flight.Destination</h5>
+                    <span>Departure: <strong>@Html.DisplayFor(m => item.Flight.Departure)</strong></span>
+                    <span>Return: <strong>@Html.DisplayFor(m => item.Flight.Return)</strong></span>
+                    <span>@item.Flight.AirLine</span>
+                  
+
+                </div>
+            </td>
+            <td>@Html.DisplayFor(m => item.Flight.PriceHUF)</td>
             <td>@item.Quantity</td>
+            <td><button id="minus">-</button><button id="plus">+</button></td>
         </tr>
         }
         <tr></tr>
