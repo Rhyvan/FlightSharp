@@ -23,12 +23,12 @@ namespace FlightSharpWebSite.Controllers
             _sessionService = sessionService;
         }
 
-        
+
         [HttpGet]
         public ViewResult Get()
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
- 
+
             if (cart == null)
             {
                 cart = new Cart();
@@ -39,7 +39,7 @@ namespace FlightSharpWebSite.Controllers
             }
 
             ViewData["Cart"] = cart;
-        
+
             return View("~/Views/Home/Cart.cshtml");
         }
 
@@ -64,12 +64,12 @@ namespace FlightSharpWebSite.Controllers
 
         //    return HttpStatusCode.OK;
         //}  
-        
-        [HttpPost("")]
-        public HttpStatusCode AddFlight(dynamic data)
+
+        [HttpPost("cart")]
+        public IActionResult AddFlight(dynamic data)
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
-
+            
             if (cart == null)
             {
                 return NotFound();
