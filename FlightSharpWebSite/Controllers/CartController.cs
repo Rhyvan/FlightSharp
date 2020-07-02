@@ -43,62 +43,65 @@ namespace FlightSharpWebSite.Controllers
             return View("~/Views/Home/Cart.cshtml");
         }
 
-        //[HttpPost]
-        //public HttpStatusCode AddFlight(Ticket ticket)
-        //{
-        //    var cart = HttpContext.Session.GetObject<Cart>("Cart");
-        //    if (cart == null)
-        //    {
-        //        cart = new Cart();
-        //        // return HttpStatusCode.BadRequest;
-        //    }
-
-        //    var flight = ticket.Flight;
-        //    var quantity = ticket.Quantity;
-
-        //    if (!cart.AddToCart(flight, quantity))
-        //    {
-        //        // this actually could happen either due to server error or bad query
-        //        return HttpStatusCode.InternalServerError;
-        //    }
-
-        //    return HttpStatusCode.OK;
-        //}  
-
         [HttpPost("cart")]
-        public IActionResult AddFlight(dynamic data)
+        public HttpStatusCode AddFlight(Ticket ticket)
         {
-            var cart = _sessionService.GetSessionObject<Cart>("Cart");
-            
+            var cart = HttpContext.Session.GetObject<Cart>("Cart");
             if (cart == null)
             {
-                return NotFound();
+                cart = new Cart();
+                // return HttpStatusCode.BadRequest;
             }
 
-            try
+            var flight = ticket.Flight;
+            Console.WriteLine("flight => " + flight);
+
+            Console.WriteLine("flight now: " + flight.AirLine);
+            Console.WriteLine("price: " + flight.PriceHUF);
+            var quantity = ticket.Quantity;
+
+            if (!cart.AddToCart(flight, quantity))
             {
-                var flight = data.GetProperty("Flight").ToString();
-                var quantity = data.GetProperty("Quantity").GetInt32();
-
-                // TODO ISSUE #1 The deserializer prevents any malformed input to enter.
-                // So code in the if block below always returns true.
-                // Need to add restrictions to the Cart class,
-                // to have a minimum necessary properties.
-                flight = JsonSerializer.Deserialize<Flight>(flight);
-
-                if (!cart.AddToCart(flight, quantity))
-                {
-                    // this actually could happen either due to server error or bad query
-                    return StatusCode(500);
-                }
+                // this actually could happen either due to server error or bad query
+                return HttpStatusCode.InternalServerError;
             }
-            catch (System.Exception)
-            {
-                return BadRequest();
-            }
-
             _sessionService.SetSessionObject("Cart", cart);
-            return Ok();
+            return HttpStatusCode.OK;
         }
+
+        //[HttpPost("cart")]
+        //public IActionResult AddFlight(dynamic data)
+        //{
+        //    var cart = _sessionService.GetSessionObject<Cart>("Cart");
+            
+        //    if (cart == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    try
+        //    {
+        //        var flight = data.GetProperty("Flight").ToString();
+        //        var quantity = data.GetProperty("Quantity").GetInt32();
+
+        //        // TODO ISSUE #1 The deserializer prevents any malformed input to enter.
+        //        // So code in the if block below always returns true.
+        //        // Need to add restrictions to the Cart class,
+        //        // to have a minimum necessary properties.
+
+        //        if (!cart.AddToCart(flight, quantity))
+        //        {
+        //            // this actually could happen either due to server error or bad query
+        //            return StatusCode(500);
+        //        }
+        //    }
+        //    catch (System.Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _sessionService.SetSessionObject("Cart", cart);
+        //    return Ok();
+        //}
     }
 }
