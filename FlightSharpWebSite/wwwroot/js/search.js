@@ -97,8 +97,12 @@ function GetFlights(fromPlace, toPlace, callback, maxPrice) {
 
 const createAndSetFlightsHTML = function (arrayOfFlights)
 {
-    //divForResults.innerHTML = "";
-    console.log(arrayOfFlights[0]);
+
+    // clear previous search results
+    while (divForResults.firstChild) {
+        divForResults.removeChild(divForResults.firstChild);
+    } 
+
     // create table with header
     let table = document.createElement("table");
     table.className = "divInputs";
