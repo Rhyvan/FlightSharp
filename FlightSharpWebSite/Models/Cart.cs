@@ -11,7 +11,7 @@ namespace FlightSharpWebSite.Models
 
         List<Ticket> _Tickets;
 
-        public ReadOnlyCollection<Ticket> Tickets { get; private set; }
+        public ReadOnlyCollection<Ticket> Tickets { get; set; } //cannot deserialize...
 
         public Cart()
         {
@@ -29,7 +29,7 @@ namespace FlightSharpWebSite.Models
                 }
                 else
                 {
-                    _Tickets.Add(new Ticket(flight, 1));
+                    _Tickets.Add(new Ticket(flight, quantity));
                 }
                 return true;
             }
