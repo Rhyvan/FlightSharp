@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
@@ -6,25 +7,32 @@ namespace FlightSharpWebSite.Models
 {
     public class Flight : IEquatable<Flight>
     {
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("return_at")]
-        public DateTime Return { get; set; }
+        public DateTime? Return { get; set; }
 
         [JsonProperty("price")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
         public int PriceHUF { get; set; }
+
+        public string Origin { get; set; }
 
         public string Destination { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("departure_at")]
-        public DateTime Departure { get; set; }
+        public DateTime? Departure { get; set; }
 
         [JsonProperty("flight_number")]
+        [Required]
         public int FlightNo { get; set; }
 
         [JsonProperty("airline")]
         public string AirLine { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
         [JsonProperty("expires_at")]
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         public Flight()
         {
