@@ -68,9 +68,15 @@ searchBtn.onclick = function () {
             fromPlace: from,
             toPlace: to
         }
-
         var jsonString = JSON.stringify(toSend);
-        GetFlights(from, to, createAndSetFlightsHTML);
+
+        let maxPrice = document.getElementById("maxPrice").value;
+
+        if (maxPrice.length == 0) {
+            maxPrice = 0;
+        }
+
+        GetFlights(from, to, createAndSetFlightsHTML, maxPrice);
     }
 }
 
@@ -80,8 +86,8 @@ function hasNumber(myString) {
 }
 
 // send GET request to APIController for retrieving flight data
-function GetFlights(fromPlace, toPlace, callback) {
-    fetch(`api/search?origin=${fromPlace}&destination=${toPlace}`, {
+function GetFlights(fromPlace, toPlace, callback, maxPrice) {
+    fetch(`api/search?origin=${fromPlace}&destination=${toPlace}&price=${maxPrice}`, {
         method: 'GET',
         credentials: 'same-origin'
     })
