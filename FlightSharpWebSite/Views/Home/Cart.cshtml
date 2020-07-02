@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewData["Title"] = "Cart";
     var cart = ViewData["Cart"] as FlightSharpWebSite.Models.Cart;
 }
@@ -9,32 +7,36 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Flight</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Flight</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in cart.Tickets)
-        {
-        <tr data-expire="@item.Flight.ExpirationDate">
+    @foreach (var item in cart.Tickets)
+    {
+        <tr data-json="@System.Text.Json.JsonSerializer.Serialize(item)" data-expire="@item.Flight.ExpirationDate">
             <td>
                 <div style="display: flex; flex-direction: column;">
-                    <h5> @item.Flight.Origin  - @item.Flight.Destination</h5>
+                    <h5> @item.Flight.Origin - @item.Flight.Destination</h5>
                     <span>Departure: <strong>@Html.DisplayFor(m => item.Flight.Departure)</strong></span>
                     <span>Return: <strong>@Html.DisplayFor(m => item.Flight.Return)</strong></span>
                     <span>@item.Flight.AirLine</span>
-                  
-
                 </div>
             </td>
             <td>@Html.DisplayFor(m => item.Flight.PriceHUF)</td>
-            <td>@item.Quantity</td>
-            <td><button id="minus">-</button><button id="plus">+</button></td>
+            <td class="item-amount">@item.Quantity</td>
+            <td>
+                <button class="minus btn btn-primary">-</button>
+                <button class="plus btn btn-primary">+</button>
+                <input class="del btn btn-outline-danger" type="button" value="X"/>
+            </td>
         </tr>
-        }
-        <tr></tr>
+    }
+    <tr></tr>
     </tbody>
 </table>
+
+<script src="~/js/cart.js" defer></script>

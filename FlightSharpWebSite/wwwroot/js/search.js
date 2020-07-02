@@ -2,12 +2,12 @@
 var divForResults = document.getElementById("showResults");
 let buttons;
 
-function addEventListeners(buttonsList)
-{
-    buttonsList.forEach(function (currentBtn) {
-        currentBtn.addEventListener('click', function () {
-            var flightData = currentBtn.getAttribute("jsonData");
-            var obj = JSON.parse(flightData);
+function addEventListeners(buttonsList) {
+    buttonsList.forEach(function(currentBtn) {
+        currentBtn.addEventListener('click',
+            function() {
+                var flightData = currentBtn.getAttribute("jsonData");
+                var obj = JSON.parse(flightData);
 
             var price = obj.priceHUF;
             var airLine = obj.airLine;
