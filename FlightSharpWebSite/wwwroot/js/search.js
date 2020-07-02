@@ -9,35 +9,35 @@ function addEventListeners(buttonsList) {
                 var flightData = currentBtn.getAttribute("jsonData");
                 var obj = JSON.parse(flightData);
 
-                var price = obj.priceHUF;
-                var airLine = obj.airLine;
-                var departure = obj.departure;
-                var destination = obj.destination;
-                var expires = obj.expirationDate;
-                var returnDate = obj.return;
-                var flightNum = obj.flightNo;
+            var price = obj.priceHUF;
+            var airLine = obj.airLine;
+            var departure = obj.departure;
+            var destination = obj.destination;
+            var expires = obj.expirationDate;
+            var returnDate = obj.return;
+            var flightNum = obj.flightNo;
+            var origin = obj.origin;
 
 
-                var jsonToPost =
-                {
-                    "Flight": {
-                        "PriceHUF": price,
-                        "AirLine": airLine,
-                        "Return": returnDate,
-                        "Destination": destination,
-                        "FlightNo": flightNum,
-                        "ExpirationDate": expires,
-                        "Departure": departure
-                    },
-                    "Quantity": 1
-                }
-
-                makePostRequest("api/cart", JSON.stringify(jsonToPost));
-                console.log(obj);
-                console.log(jsonToPost);
+            var jsonToPost =
+            {
+                "Flight": {
+                    "PriceHUF": price,
+                    "AirLine": airLine,
+                    "Return": returnDate,
+                    "Destination": destination,
+                    "FlightNo": flightNum,
+                    "ExpirationDate" : expires,
+                    "Departure": departure,
+                    "Origin": origin
+                },
+                "Quantity": 1
             }
-        );
-    });
+
+            makePostRequest("api/cart", JSON.stringify(jsonToPost));
+        }
+        )
+    })
 }
 
 function makePostRequest(whereToSend, whatToSend)
@@ -86,7 +86,7 @@ function GetFlights(fromPlace, toPlace, callback) {
         credentials: 'same-origin'
     })
         .then(response => response.json())
-        .then(json_response => callback(json_response))
+        .then(json_response => callback(json_response));
 }
 
 const createAndSetFlightsHTML = function (arrayOfFlights)
@@ -104,8 +104,12 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
     thForAirLine.appendChild(document.createTextNode("AirLine"));
     header.appendChild(thForAirLine);
 
+    let thForOrigin = document.createElement("th");
+    thForOrigin.appendChild(document.createTextNode("From"));
+    header.appendChild(thForOrigin);
+
     let thForDestination = document.createElement("th");
-    thForDestination.appendChild(document.createTextNode("Destination"));
+    thForDestination.appendChild(document.createTextNode("To"));
     header.appendChild(thForDestination);
 
     let thForPrice = document.createElement("th");
@@ -134,6 +138,10 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         tdForAirLine.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].airLine)}`));
         nextTR.appendChild(tdForAirLine);
 
+        let tdForOrigin = document.createElement("td");
+        tdForOrigin.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].origin)}`));
+        nextTR.appendChild(tdForOrigin);
+
         let tdForDestination = document.createElement("td");
         tdForDestination.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].destination)}`));
         nextTR.appendChild(tdForDestination);
@@ -152,6 +160,7 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
 
         let tdButton = document.createElement("button");
         tdButton.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
+        tdButton.setAttribute("origin", JSON.stringify(arrayOfFlights[i].Origin))
         tdButton.id = "AddBTN";
         tdButton.className = "blueBTN";
         tdButton.textContent = "Add";

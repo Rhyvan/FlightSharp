@@ -12,7 +12,7 @@ using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
-    [Route("api")]
+    [Route("Home/api")]
     [ApiController]
     public class CartController : Controller
     {
@@ -23,12 +23,12 @@ namespace FlightSharpWebSite.Controllers
             _sessionService = sessionService;
         }
 
-        
+
         [HttpGet]
         public ViewResult Get()
         {
             var cart = _sessionService.GetSessionObject<Cart>("Cart");
- 
+
             if (cart == null)
             {
                 cart = new Cart();
@@ -39,11 +39,11 @@ namespace FlightSharpWebSite.Controllers
             }
 
             ViewData["Cart"] = cart;
-        
+
             return View("~/Views/Home/Cart.cshtml");
         }
 
-        //[HttpPost]
+        //[HttpPost("cart")]
         //public HttpStatusCode AddFlight(Ticket ticket)
         //{
         //    var cart = HttpContext.Session.GetObject<Cart>("Cart");
@@ -61,10 +61,10 @@ namespace FlightSharpWebSite.Controllers
         //        // this actually could happen either due to server error or bad query
         //        return HttpStatusCode.InternalServerError;
         //    }
-
+        //    _sessionService.SetSessionObject("Cart", cart);
         //    return HttpStatusCode.OK;
-        //}  
-        
+        //}
+
         [HttpPost("cart")]
         public IActionResult AddFlight(dynamic data)
         {
