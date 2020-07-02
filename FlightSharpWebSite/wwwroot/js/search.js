@@ -20,16 +20,16 @@ function addEventListeners(buttonsList)
 
             var jsonToPost =
             {
-                Flight: {
-                    price: price,
-                    airline: airLine,
-                    return_at: returnDate,
-                    destination: destination,
-                    flight_number: flightNum,
-                    expires_at: expires,
-                    departure_at: departure
+                "Flight": {
+                    "PriceHUF": price,
+                    "AirLine": airLine,
+                    "Return": returnDate,
+                    "Destination": destination,
+                    "FlightNo": flightNum,
+                    "ExpirationDate" : expires,
+                    "Departure" : departure
                 },
-                Quantity: 1
+                "Quantity": 1
             }
 
             makePostRequest("api/cart", JSON.stringify(jsonToPost));
