@@ -29,18 +29,18 @@ namespace FlightSharpWebSite.Models
                 {
                     Tickets.Add(new Ticket(flight, quantity));
                 }
+
                 return true;
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
 
+
         public void DeleteFromCart(Flight flight)
         {
-           
             Tickets.RemoveAll(x => x.Flight.Equals(flight));
         }
 

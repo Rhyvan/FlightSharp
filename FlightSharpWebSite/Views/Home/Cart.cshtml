@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewData["Title"] = "Cart";
     var cart = ViewData["Cart"] as FlightSharpWebSite.Models.Cart;
 }
@@ -9,32 +7,90 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Flight</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Flight</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in cart.Tickets)
-        {
+    @foreach (var item in cart.Tickets)
+    {
         <tr data-expire="@item.Flight.ExpirationDate">
             <td>
                 <div style="display: flex; flex-direction: column;">
-                    <h5> @item.Flight.Origin  - @item.Flight.Destination</h5>
+                    <h5> @item.Flight.Origin - @item.Flight.Destination</h5>
                     <span>Departure: <strong>@Html.DisplayFor(m => item.Flight.Departure)</strong></span>
                     <span>Return: <strong>@Html.DisplayFor(m => item.Flight.Return)</strong></span>
                     <span>@item.Flight.AirLine</span>
-                  
-
                 </div>
             </td>
             <td>@Html.DisplayFor(m => item.Flight.PriceHUF)</td>
             <td class="item_amount">@item.Quantity</td>
-            <td><button id="minus">-</button><button id="plus">+</button></td>
+            <td>
+                <button id="minus" class="minus" jsondata="@item.Flight.ToJson()">-</button><button id="plus" class="plus" jsondata="@item.Flight.ToJson()">+</button>
+            </td>
         </tr>
-        }
-        <tr></tr>
+    }
+    <tr></tr>
     </tbody>
 </table>
+
+<script type="text/javascript">
+    window.onload = function() {
+        let plusButtons = document.querySelectorAll(".plus");
+        addEventListeners(plusButtons);
+        console.log(plusButtons);
+    }
+
+    function makePostRequest(whereToSend, whatToSend) {
+        fetch(whereToSend,
+            {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: whatToSend
+            });
+    }
+
+    function addEventListeners(buttonsList) {
+        buttonsList.forEach(function(currentBtn) {
+            currentBtn.addEventListener('click',
+                function() {
+                    var flightData = currentBtn.getAttribute("jsonData");
+                    var obj = JSON.parse(flightData);
+
+                    var price = obj.priceHUF;
+                    var airLine = obj.airLine;
+                    var departure = obj.departure;
+                    var destination = obj.destination;
+                    var expires = obj.expirationDate;
+                    var returnDate = obj.return;
+                    var flightNum = obj.flightNo;
+
+
+                    var jsonToPost =
+                    {
+                        "Flight": {
+                            "PriceHUF": price,
+                            "AirLine": airLine,
+                            "Return": returnDate,
+                            "Destination": destination,
+                            "FlightNo": flightNum,
+                            "ExpirationDate": expires,
+                            "Departure": departure
+                        },
+                        "Quantity": 1
+                    }
+
+                    makePostRequest("api/cart", JSON.stringify(jsonToPost));
+                    console.log("Added item");
+                }
+            );
+        });
+    }
+
+</script>
