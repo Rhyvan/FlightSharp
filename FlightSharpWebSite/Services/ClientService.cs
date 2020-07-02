@@ -40,4 +40,9 @@ namespace FlightSharpWebSite.Services
             return request;
         }
     }
+
+    public interface IClientService
+    {
+        public string GetFlights(string origin, string destination, string currency);
+    }
 }

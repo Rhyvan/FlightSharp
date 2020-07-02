@@ -17,6 +17,7 @@ namespace FlightSharpWebSite.Models
 
         public string Origin { get; set; }
 
+        [JsonProperty("destination")]
         public string Destination { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy.MM.dd hh:mm}")]
@@ -52,7 +53,7 @@ namespace FlightSharpWebSite.Models
             return (Return, PriceHUF, Destination, Departure, FlightNo, AirLine, ExpirationDate) ==
                 (other.Return,
                 other.PriceHUF,
-                other. Destination,
+                other.Destination,
                 other.Departure,
                 other.FlightNo,
                 other.AirLine,
