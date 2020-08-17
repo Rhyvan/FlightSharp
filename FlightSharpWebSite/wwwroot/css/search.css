@@ -1,0 +1,64 @@
+﻿body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+h1 {
+    font-family: Arial, 'Times New Roman';
+    font-size: 20px;
+    font-style: italic;
+    text-align: center;
+    font-weight: 100;
+}
+
+.divInputs {
+    width: 580px;
+    max-width: 580px;
+    height: 220px;
+    max-height: 220px;
+    vertical-align: middle;
+    margin: 0 auto;
+    border: 5px outset #0074D9;
+    background-color: lightblue;
+    text-align: center;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.input {
+    font-family: 'Times New Roman';
+    font-size: 14px;
+    text-align: center;
+}
+
+.blueBTN {
+    margin-top: 10px;
+    color: white;
+    background: #4C8FFB;
+    border: 1px #3079ED solid;
+    box-shadow: inset 0 1px 0 #80B0FB;
+}
+
+.blueBTN:hover {
+    border: 1px #2F5BB7 solid;
+    box-shadow: 0 1px 1px #EAEAEA, inset 0 1px 0 #5A94F1;
+    background: #3F83F1;
+}
+
+.blueBTN:active {
+}
+
+th {
+    background-color: #0074D9;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #f5f5f5;
+}
