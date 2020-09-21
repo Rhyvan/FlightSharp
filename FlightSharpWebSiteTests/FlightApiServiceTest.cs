@@ -26,8 +26,11 @@ namespace FlightSharpWebSiteTests
         [Test]
         public void TestGetFlightsFromTo()
         {
+            var origin = "BUD";
             var destination = "DUB";
             var price = 53731;
+            var currency = "HUF";
+            var maxPrice = 200000;
             var airLine = "FR";
             var flightNo = 1024;
             var departureTime = "2020 - 08 - 03T17: 25:00Z";
@@ -67,7 +70,7 @@ namespace FlightSharpWebSiteTests
            
             clientService.GetFlights("BUD", destination, "HUF").Returns(response);
 
-            var result = flightApi.GetFlights("BUD", destination);
+            var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
             
             Assert.AreEqual(expected.ToJson(), result.First().ToJson());
         }
