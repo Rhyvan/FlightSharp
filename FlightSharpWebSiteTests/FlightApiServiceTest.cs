@@ -10,10 +10,20 @@ using FlightSharpWebSite.Services;
 
 namespace FlightSharpWebSiteTests
 {
-    public class Tests
+    public class FlightApiServiceTest
     {
         FlightApiService flightApi;
         IClientService clientService;
+        string origin = "BUD";
+        string destination = "DUB";
+        int price = 53731;
+        string currency = "HUF";
+        int maxPrice = 200000;
+        string airLine = "FR";
+        int flightNo = 1024;
+        string departureTime = "2020 - 08 - 03T17: 25:00Z";
+        string returnTime = "2020 - 08 - 07T23: 20:00Z";
+        string expireTime = "2020 - 07 - 01T15: 50:13Z";
 
         [OneTimeSetUp]
         public void Setup()
@@ -26,19 +36,7 @@ namespace FlightSharpWebSiteTests
         [Test]
         public void TestGetFlightsFromTo()
         {
-            var origin = "BUD";
-            var destination = "DUB";
-            var price = 53731;
-            var currency = "HUF";
-            var maxPrice = 200000;
-            var airLine = "FR";
-            var flightNo = 1024;
-            var departureTime = "2020 - 08 - 03T17: 25:00Z";
-            var returnTime = "2020 - 08 - 07T23: 20:00Z";
-            var expireTime = "2020 - 07 - 01T15: 50:13Z";
 
-            // TODO which response variable to use? 
-            //string response = @"{'success':true,'data':{'DUB':{'0':{'price':53731,'airline':'FR','flight_number':1024,'departure_at':'2020 - 08 - 03T17: 25:00Z','return_at':'2020 - 08 - 07T23: 20:00Z','expires_at':'2020 - 07 - 01T15: 50:13Z'}}},'error':null,'currency':'HUF'}";
             var response = $@"{{
                 ""success"": true,
                 ""data"":
@@ -57,7 +55,7 @@ namespace FlightSharpWebSiteTests
                     }}
                 }},
                 ""error"": ""null"",
-                ""currency"":""HUF""}}";
+                ""currency"":""{currency}""}}";
 
             var expected = new Flight()
             {
@@ -66,6 +64,7 @@ namespace FlightSharpWebSiteTests
                 FlightNo = flightNo,
                 Departure = DateTime.Parse(departureTime).ToUniversalTime(),
                 Return = DateTime.Parse(returnTime).ToUniversalTime(),
+                ExpirationDate = DateTime.Parse(expireTime).ToUniversalTime()
             };
            
             clientService.GetFlights("BUD", destination, "HUF").Returns(response);
@@ -73,6 +72,22 @@ namespace FlightSharpWebSiteTests
             var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
             
             Assert.AreEqual(expected.ToJson(), result.First().ToJson());
+        }
+
+        [Test]
+        public void TestGetFlights_HandleEmptyDataInResponse()
+        {
+            var response = @"{
+                ""success"": true,
+                ""data"": {},
+                ""error"": ""null"",
+                }";
+
+            clientService.GetFlights(origin, destination, currency).Returns(response);
+            var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
+
+            Assert.IsNull(result);
+
         }
     }
 }
