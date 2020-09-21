@@ -1,13 +1,9 @@
-﻿using FlightSharpWebSite.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 
 namespace FlightSharpWebSite
 {
@@ -43,15 +39,6 @@ namespace FlightSharpWebSite
             return flights;
         }
 
-        /*public IEnumerable<Flight> GetFlights(string origin, string destination, string currency)
-        {
-            var resp = _client.GetFlights(origin, destination, currency);
-            var json = JObject.Parse(resp);
-            var flightsJson = json["data"][destination].ToString();
-            IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
-                .Select(kvp => kvp.Value);
-            return flights;
-        }*/
 
         public IEnumerable<Flight> GetFlights(string origin, string destination, string currency, int maxPrice)
         {
@@ -63,15 +50,6 @@ namespace FlightSharpWebSite
             return from flight in flights
                    where flight.PriceHUF < maxPrice
                    select flight;
-            //from flight in flights where flight.PriceHUF <= maxPrice select flight;
         }
-    }
-
-    public interface IFlightApiService
-    {
-        public IEnumerable<Flight> GetFlights(string origin, string destination, int maxPrice);
-        // public IEnumerable<Flight> GetFlights(string origin, string destination, string currency);
-        public IEnumerable<Flight> GetFlights(string origin, string destination, string currency, int maxPrice);
-
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using RestSharp;
+﻿using RestSharp;
 
 namespace FlightSharpWebSite.Services
 {
@@ -39,10 +34,5 @@ namespace FlightSharpWebSite.Services
 
             return request;
         }
-    }
-
-    public interface IClientService
-    {
-        public string GetFlights(string origin, string destination, string currency);
     }
 }
