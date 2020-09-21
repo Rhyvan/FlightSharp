@@ -44,12 +44,17 @@ namespace FlightSharpWebSite
         {
             var resp = _client.GetFlights(origin, destination, currency);
             var json = JObject.Parse(resp);
-            var flightsJson = json["data"][destination].ToString();
-            IEnumerable<Flight> flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(flightsJson)
+            var data = json["data"][destination];
+            if ( data == null)
+            {
+                return null;
+            }
+
+            var flights = JsonConvert.DeserializeObject<Dictionary<string, Flight>>(data.ToString())
                 .Select(kvp => kvp.Value);
             return from flight in flights
-                   where flight.PriceHUF < maxPrice
-                   select flight;
+                where flight.PriceHUF < maxPrice
+                select flight;
         }
     }
 }
