@@ -26,8 +26,10 @@ namespace FlightSharpWebSite.Controllers
         [HttpGet("search")]
         public ActionResult<IEnumerable<Flight>> GetSearchedFlights([FromQuery]string origin, [FromQuery]string destination, [FromQuery]int price)
         {
+            var currency = "USD";
+
             currentFlights.Clear();
-            IEnumerable<Flight> flights = flightApiService.GetFlights(origin, destination, price);
+            IEnumerable<Flight> flights = flightApiService.GetFlights(origin, destination, currency, price);
             foreach (var flight in flights)
             {
                 currentFlights.Add(flight);
