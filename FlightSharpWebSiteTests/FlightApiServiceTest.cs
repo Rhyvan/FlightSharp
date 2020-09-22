@@ -1,12 +1,10 @@
-using NUnit.Framework;
-using FlightSharpWebSite;
-using NSubstitute;
-using NSubstitute.Extensions;
-using System.Linq;
-using FlightSharpWebSite.Models;
 using System;
-using RestSharp;
+using System.Linq;
+using FlightSharpWebSite;
+using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace FlightSharpWebSiteTests
 {
@@ -67,11 +65,11 @@ namespace FlightSharpWebSiteTests
                 Return = DateTime.Parse(returnTime).ToUniversalTime(),
                 ExpirationDate = DateTime.Parse(expireTime).ToUniversalTime()
             };
-           
+
             clientService.GetFlights("BUD", destination, "HUF").Returns(response);
 
             var result = flightApi.GetFlights(origin, destination, currency);
-            
+
             Assert.AreEqual(expected.ToJson(), result.First().ToJson());
         }
 
