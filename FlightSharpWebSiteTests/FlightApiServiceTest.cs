@@ -18,7 +18,6 @@ namespace FlightSharpWebSiteTests
         string destination = "DUB";
         int price = 53731;
         string currency = "HUF";
-        int maxPrice = 200000;
         string airLine = "FR";
         int flightNo = 1024;
         string departureTime = "2020 - 08 - 03T17: 25:00Z";
@@ -34,14 +33,14 @@ namespace FlightSharpWebSiteTests
 
 
         [Test]
-        public void TestGetFlightsFromTo()
+        public void TestGetFlightsFromTo_HasData_NoPriceFilter()
         {
 
             var response = $@"{{
                 ""success"": true,
                 ""data"":
                 {{
-                    ""DUB"": 
+                    ""{destination}"": 
                     {{
                         ""0"": 
                         {{
@@ -59,6 +58,8 @@ namespace FlightSharpWebSiteTests
 
             var expected = new Flight()
             {
+                Origin = origin,
+                Destination = destination,
                 PriceHUF = price,
                 AirLine = airLine,
                 FlightNo = flightNo,
@@ -69,7 +70,7 @@ namespace FlightSharpWebSiteTests
            
             clientService.GetFlights("BUD", destination, "HUF").Returns(response);
 
-            var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
+            var result = flightApi.GetFlights(origin, destination, currency);
             
             Assert.AreEqual(expected.ToJson(), result.First().ToJson());
         }
@@ -84,9 +85,59 @@ namespace FlightSharpWebSiteTests
                 }";
 
             clientService.GetFlights(origin, destination, currency).Returns(response);
-            var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
+            var result = flightApi.GetFlights(origin, destination, currency);
 
             Assert.IsNull(result);
+        }
+
+        [Test]
+        public void TestGetFlights_HasData_PriceFilter()
+        {
+            var maxPrice = 100;
+            var smallerPrice = 80;
+            var overPrice = 120;
+            var response = $@"{{
+                ""success"": true,
+                ""data"":
+                {{
+                    ""{destination}"": 
+                    {{
+                        ""0"": 
+                        {{
+                            ""price"": ""{overPrice}"",
+                            ""airline"": ""{airLine}"",
+                            ""flight_number"": ""{flightNo}"",
+                            ""departure_at"": ""{departureTime}"",
+                            ""return_at"": ""{returnTime}"",
+                            ""expires_at"": ""{expireTime}""
+                        }},
+                        ""1"": 
+                        {{
+                            ""price"": ""{overPrice}"",
+                            ""airline"": ""{airLine}"",
+                            ""flight_number"": ""{flightNo}"",
+                            ""departure_at"": ""{departureTime}"",
+                            ""return_at"": ""{returnTime}"",
+                            ""expires_at"": ""{expireTime}""
+                        }},
+                        ""2"": 
+                        {{
+                            ""price"": ""{smallerPrice}"",
+                            ""airline"": ""{airLine}"",
+                            ""flight_number"": ""{flightNo}"",
+                            ""departure_at"": ""{departureTime}"",
+                            ""return_at"": ""{returnTime}"",
+                            ""expires_at"": ""{expireTime}""
+                        }}
+                    }}
+                }},
+                ""error"": ""null"",
+                ""currency"":""{currency}""}}";
+
+            clientService.GetFlights(origin, destination, currency).Returns(response);
+            var result = flightApi.GetFlights(origin, destination, currency, maxPrice);
+
+            Assert.AreEqual(1, result.Count());
 
         }
     }
