@@ -43,28 +43,6 @@ namespace FlightSharpWebSite.Controllers
             return View("~/Views/Home/Cart.cshtml");
         }
 
-        //[HttpPost("cart")]
-        //public HttpStatusCode AddFlight(Ticket ticket)
-        //{
-        //    var cart = HttpContext.Session.GetObject<Cart>("Cart");
-        //    if (cart == null)
-        //    {
-        //        cart = new Cart();
-        //        // return HttpStatusCode.BadRequest;
-        //    }
-
-        //    var flight = ticket.Flight;
-        //    var quantity = ticket.Quantity;
-
-        //    if (!cart.AddToCart(flight, quantity))
-        //    {
-        //        // this actually could happen either due to server error or bad query
-        //        return HttpStatusCode.InternalServerError;
-        //    }
-        //    _sessionService.SetSessionObject("Cart", cart);
-        //    return HttpStatusCode.OK;
-        //}
-
         [HttpPost("cart")]
         public IActionResult AddFlight(dynamic data)
         {
