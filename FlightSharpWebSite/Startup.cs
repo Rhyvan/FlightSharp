@@ -29,6 +29,7 @@ namespace FlightSharpWebSite
             services.AddDistributedMemoryCache();
 
             services.AddSingleton<SessionService>();
+            services.AddSingleton<IFlightApiService>(provider => new FlightApiService(new ClientService()));
 
             services.AddHttpContextAccessor();
 
