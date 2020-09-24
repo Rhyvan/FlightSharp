@@ -50,9 +50,10 @@ namespace FlightSharpWebSite.Models
         public bool Equals(Flight other)
         {
             if (other == null) return false;
-            return (Return, PriceHUF, Destination, Departure, FlightNo, AirLine, ExpirationDate) ==
+            return (Return, PriceHUF, Origin, Destination, Departure, FlightNo, AirLine, ExpirationDate) ==
                 (other.Return,
                 other.PriceHUF,
+                other.Origin,
                 other.Destination,
                 other.Departure,
                 other.FlightNo,

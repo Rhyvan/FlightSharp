@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Net;
+using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
-using FlightSharpWebSite.Util;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestSharp;
 
 namespace FlightSharpWebSite.Controllers
 {
@@ -62,7 +57,7 @@ namespace FlightSharpWebSite.Controllers
                 // So code in the if block below always returns true.
                 // Need to add restrictions to the Cart class,
                 // to have a minimum necessary properties.
-                flight = JsonSerializer.Deserialize<Flight>(flight);
+                flight = JsonSerializer.Deserialize<Flight>(flight, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 if (!cart.AddToCart(flight, quantity))
                 {
@@ -70,7 +65,7 @@ namespace FlightSharpWebSite.Controllers
                     return StatusCode(500);
                 }
             }
-            catch (System.Exception)
+            catch (KeyNotFoundException)
             {
                 return BadRequest();
             }

@@ -1,47 +1,28 @@
 ﻿var searchBtn = document.getElementById("search");
 var divForResults = document.getElementById("showResults");
 let buttons;
+let toastCounter = 0;
+const toastContainer = document.querySelector("#toastContainer");
 
 function addEventListeners(buttonsList) {
     buttonsList.forEach(function(currentBtn) {
         currentBtn.addEventListener('click',
-            function() {
+            function () {
                 var flightData = currentBtn.getAttribute("jsonData");
-                var obj = JSON.parse(flightData);
 
-            var price = obj.priceHUF;
-            var airLine = obj.airLine;
-            var departure = obj.departure;
-            var destination = obj.destination;
-            var expires = obj.expirationDate;
-            var returnDate = obj.return;
-            var flightNum = obj.flightNo;
-            var origin = obj.origin;
+                var jsonTicket =
+                {
+                    "Flight": JSON.parse(flightData),
+                    "Quantity": 1
+                };
 
-
-            var jsonToPost =
-            {
-                "Flight": {
-                    "PriceHUF": price,
-                    "AirLine": airLine,
-                    "Return": returnDate,
-                    "Destination": destination,
-                    "FlightNo": flightNum,
-                    "ExpirationDate" : expires,
-                    "Departure": departure,
-                    "Origin": origin
-                },
-                "Quantity": 1
-            }
-
-            makePostRequest("api/cart", JSON.stringify(jsonToPost));
+                makePostRequest("api/cart", JSON.stringify(jsonTicket));
         }
         )
     })
 }
 
-function makePostRequest(whereToSend, whatToSend)
-{
+function makePostRequest(whereToSend, whatToSend) {
     fetch(whereToSend, {
         method: 'POST',
         credentials: 'same-origin',
@@ -50,6 +31,13 @@ function makePostRequest(whereToSend, whatToSend)
         },
         body: whatToSend
     })
+        .then(response => {
+            if (response.ok) {
+                showToast("Successfully added to cart.", "info");
+            } else {
+                showToast("Some error occurred", "warning");
+            }
+        });
 }
 
 // handling click event on search button, also some input validation
@@ -64,12 +52,6 @@ searchBtn.onclick = function () {
         alert("Both airport codes must be 3 characters long!");
     }
     else {
-        var toSend = {
-            fromPlace: from,
-            toPlace: to
-        }
-        var jsonString = JSON.stringify(toSend);
-
         let maxPrice = document.getElementById("maxPrice").value;
 
         if (maxPrice.length == 0 || (maxPrice.length > 0 && maxPrice[0] == 0)) {
@@ -106,6 +88,7 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
     // create table with header
     let table = document.createElement("table");
     table.className = "divInputs";
+    table.classList.add("table", "table-bordered");
     let header = document.createElement("tr");
 
     table.appendChild(header);
@@ -161,24 +144,57 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         nextTR.appendChild(tdForPrice);
 
         let tdForDeparture = document.createElement("td");
-        tdForDeparture.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].departure)}`));
+        tdForDeparture.appendChild(document.createTextNode(ConvertDateTime(arrayOfFlights[i].departure)));
         nextTR.appendChild(tdForDeparture);
 
         let tdForReturn = document.createElement("td");
-        tdForReturn.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].return)}`));
+        tdForReturn.appendChild(document.createTextNode(ConvertDateTime(arrayOfFlights[i].return)));
         nextTR.appendChild(tdForReturn);
 
+        let tdForButton = document.createElement("td");
         let tdButton = document.createElement("button");
         tdButton.setAttribute("jsonData", JSON.stringify(arrayOfFlights[i]));
         tdButton.setAttribute("origin", JSON.stringify(arrayOfFlights[i].Origin))
         tdButton.id = "AddBTN";
-        tdButton.className = "blueBTN";
+        tdButton.className = "btn-primary";
         tdButton.textContent = "Add";
-        nextTR.appendChild(tdButton);
+        tdForButton.appendChild(tdButton);
+        nextTR.appendChild(tdForButton);
 
         table.appendChild(nextTR);
     }
     // add buttons with eventlisteners to be able to send PostReq
     buttons = document.querySelectorAll("#AddBTN");
     addEventListeners(buttons);
+}
+
+function ConvertDateTime(dateTime) {
+    let date = new Date(dateTime);
+    return date.getFullYear()
+        + "." + ("0" + (date.getMonth() + 1)).slice(-2)
+        + "." + (date.getUTCDate())
+        + " " + date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+}
+
+
+
+
+function showToast(message, bgColor) {
+    let toastId = 'toast' + toastCounter;
+    let toast = `
+    <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay=2000>
+      <div class="toast-body bg-${bgColor} text-white">
+        <strong class="mr-auto">${message}</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>`;
+    toastContainer.insertAdjacentHTML("afterbegin", toast);
+    $(`#${toastId}`).toast("show");
+    $(`#${toastId}`).on('hidden.bs.toast', function () {
+        $(this).remove();
+    })
+
+    toastCounter++;
 }
