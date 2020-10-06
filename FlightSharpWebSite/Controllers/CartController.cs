@@ -4,6 +4,7 @@ using System.Text.Json;
 using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CSharp.RuntimeBinder;
 
 namespace FlightSharpWebSite.Controllers
 {
@@ -65,10 +66,8 @@ namespace FlightSharpWebSite.Controllers
                     return StatusCode(500);
                 }
             }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest();
-            }
+            catch (KeyNotFoundException) { return BadRequest();}
+            catch (RuntimeBinderException) { return BadRequest(); }
 
             _sessionService.SetSessionObject("Cart", cart);
             return Ok();
