@@ -26,7 +26,7 @@
                     <span>@item.Flight.AirLine</span>
                 </div>
             </td>
-            <td>@Html.DisplayFor(m => item.Flight.PriceHUF)</td>
+            <td>@item.Flight.Price @item.Flight.Currency</td>
             <td class="item-amount">@item.Quantity</td>
             <td>
                 <button class="minus btn btn-primary">-</button>

@@ -19,14 +19,14 @@ namespace FlightSharpWebSiteTests
         {
             flightA = new Flight()
             {
-                PriceHUF = 1000,
+                Price = 1000,
                 FlightNo = 123,
                 AirLine = "MALEV"
             };
 
             flightB = new Flight()
             {
-                PriceHUF = 1000,
+                Price = 1000,
                 FlightNo = 123,
                 AirLine = "MALEV"
             };
@@ -51,7 +51,7 @@ namespace FlightSharpWebSiteTests
         public void AddToCart_AddNewItem()
         {
             _cart.AddToCart(flightA, 1);
-            var flightC = new Flight() { PriceHUF = 500, FlightNo = 123, AirLine = "LOT" };
+            var flightC = new Flight() { Price = 500, FlightNo = 123, AirLine = "LOT" };
 
             _cart.AddToCart(flightC, 1);
 

@@ -11,7 +11,7 @@ namespace FlightSharpWebSite.Models
         [Required]
         public string Destination { get; set; }
         [StringLength(3)]
-        public string Currency { get; set; } = "USD";
+        public string Currency { get; set; }
         [BindProperty(Name = "price")]
         public int MaxPrice { get; set; }
     }

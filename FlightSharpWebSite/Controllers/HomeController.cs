@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using FlightSharpWebSite.Models;
 using FlightSharpWebSite.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace FlightSharpWebSite.Controllers
 {
@@ -42,6 +40,27 @@ namespace FlightSharpWebSite.Controllers
 
         public IActionResult Search()
         {
+            var localCurrency = RegionInfo.CurrentRegion.ISOCurrencySymbol;
+
+            var currenciesISOsymbol = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(c => !c.IsNeutralCulture)
+                .Select(culture =>
+                {
+                    try
+                    {
+                        return new RegionInfo(culture.Name);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                })
+                .Where(region => region != null)
+                .Select(ri => ri.ISOCurrencySymbol)
+                .Distinct();
+
+            ViewData["localCurrency"] = localCurrency;
+            ViewData["currencies"] = currenciesISOsymbol;
             return View();
         }
 

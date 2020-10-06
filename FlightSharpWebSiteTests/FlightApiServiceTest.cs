@@ -58,9 +58,10 @@ namespace FlightSharpWebSiteTests
             {
                 Origin = origin,
                 Destination = destination,
-                PriceHUF = price,
+                Price = price,
                 AirLine = airLine,
                 FlightNo = flightNo,
+                Currency = currency,
                 Departure = DateTime.Parse(departureTime).ToUniversalTime(),
                 Return = DateTime.Parse(returnTime).ToUniversalTime(),
                 ExpirationDate = DateTime.Parse(expireTime).ToUniversalTime()

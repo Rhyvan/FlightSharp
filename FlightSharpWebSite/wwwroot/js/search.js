@@ -44,6 +44,8 @@ function makePostRequest(whereToSend, whatToSend) {
 searchBtn.onclick = function () {
     var from = document.getElementById("from").value.toUpperCase();
     var to = document.getElementById("to").value.toUpperCase();
+    var currencyElement = document.getElementById("currency");
+    var currency = currencyElement.options[currencyElement.selectedIndex].text.toUpperCase();
 
     if (hasNumber(from) || hasNumber(to)) {
         alert("Inputs can not contain numbers!");
@@ -58,7 +60,7 @@ searchBtn.onclick = function () {
             maxPrice = 0;
         }
 
-        GetFlights(from, to, createAndSetFlightsHTML, maxPrice);
+        GetFlights(from, to, createAndSetFlightsHTML, maxPrice, currency);
     }
 }
 
@@ -68,8 +70,8 @@ function hasNumber(myString) {
 }
 
 // send GET request to APIController for retrieving flight data
-function GetFlights(fromPlace, toPlace, callback, maxPrice) {
-    fetch(`api/search?origin=${fromPlace}&destination=${toPlace}&price=${maxPrice}`, {
+function GetFlights(fromPlace, toPlace, callback, maxPrice, currency) {
+    fetch(`api/search?origin=${fromPlace}&destination=${toPlace}&price=${maxPrice}&currency=${currency}`, {
         method: 'GET',
         credentials: 'same-origin'
     })
@@ -140,7 +142,7 @@ const createAndSetFlightsHTML = function (arrayOfFlights)
         nextTR.appendChild(tdForDestination);
 
         let tdForPrice = document.createElement("td");
-        tdForPrice.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].priceHUF)}`));
+        tdForPrice.appendChild(document.createTextNode(`${JSON.stringify(arrayOfFlights[i].price)}`));
         nextTR.appendChild(tdForPrice);
 
         let tdForDeparture = document.createElement("td");

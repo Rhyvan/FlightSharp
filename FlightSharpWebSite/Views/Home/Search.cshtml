@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Search";
+    var currencies = ViewData["currencies"] as IEnumerable<string>;
 }
 @section scripts{
     <script src="@Url.Content("~/js/search.js")" type="text/javascript" defer></script>
@@ -21,7 +22,11 @@
     <br>
     <input class="input" id="maxPrice" maxlength="8" type="number" placeholder="price limit (optional)" />
     <br>
-    <button class="blueBTN" id="search">Search</button>
+    <label>Currency:</label>
+    <select id="currency" asp-items="@(new SelectList(currencies, ViewData["localCurrency"]))"></select>
+    @*<button id="changeCurrency" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="change the currency">Change</button>*@
+    <br>
+    <button class="btn btn-primary" id="search">Search</button>
 </div>
 <div id="showResults">
 

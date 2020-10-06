@@ -34,12 +34,13 @@ namespace FlightSharpWebSite
             {
                 flight.Origin = origin;
                 flight.Destination = destination;
+                flight.Currency = currency;
             }
 
             if (maxPrice != 0)
             {
                 return from flight in flights
-                    where flight.PriceHUF < maxPrice
+                    where flight.Price < maxPrice
                     select flight;
             }
 
