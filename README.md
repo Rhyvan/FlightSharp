@@ -6,32 +6,20 @@ The app fetches flight data from a remote API hosted by RapidAPI, and Users can 
 
 #### Goal:
 The project is a MVC practice, using plain JavaScript for AJAX calls on top of View renders.
-The main aspect was to create a well **decoupled, easily testable app**, and get to know **handling of HTTP requests and session** in ASP.NET Core.
+It began as a school group task, then I forked it to conduct complete refactoring on the backend and to add missing features.
+My main aspect was to create a well **decoupled, easily testable app**, and get to know **handling of HTTP requests and session** in ASP.NET Core.
 
-App in current state is overheaded, classes and functions are built by taking into account the future features. 
-(E.g. No InMemory-repository implemented, thus session holds data.)
+Drawbacks: No EF Core InMemory-repository implemented, thus session keeps data.)
 
 
 ---
+
 ### Implemented features:
-- Search and filter flight data
-- Add selected flights to cart
-- Modify/delete items in cart
-- Tests for web API and underlying business logic
+- Search and filter flight data fetched from https://travelpayouts.github.io/slate/#flight-data-access-api-v1
+- Add selected flights to cart and notify user of its success/failure by a toast
+- Modify/delete items in cart 
+- Tests for web API and underlying business logic, handle possible errors.
 
-#### Future implementations
-- database and repositories.
-- user registration/login and authentication
-
-#### API:
-*Home/api/search*
-: based on request queries fetches the data and returns as list
-
-*Home/api*
-: loads cart's page
-
-*Home/api/cart* [POST/DELETE]
-: adds or deletes the specified item sent as JSON data and sets new session.
 
 #### NuGet Packages:
 | Package name | version |
